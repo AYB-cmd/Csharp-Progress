@@ -11,7 +11,7 @@ namespace GestionDeStock
             //initialize the inputchecker class
             InputChecker inputChecker = new InputChecker();
             // refer to artical reference number 
-            int reference = 0;
+            int reference = stock.ArticleList.Count;
             Console.WriteLine("Welcome to the store.");
             
             //action will be a return number from choose method
@@ -32,33 +32,35 @@ namespace GestionDeStock
                             //To auto-incremente  artical reference number 
                             
                             Console.WriteLine("You choose to add a new article to the inventory");
-
-                            string articleName = "";
                             reference++;
-                            decimal buyPrice = 0;
-                            decimal sellPrice = 0;
-
+                          
                             Console.WriteLine("What is the article name?");
-                            articleName = Console.ReadLine();
+                            string articleName = Console.ReadLine();
 
                             Console.WriteLine("What is the buy Price number?");
-                            buyPrice = inputChecker.Numberic(Console.ReadLine());
+                            decimal buyPrice = inputChecker.Numberic(Console.ReadLine());
 
                             Console.WriteLine("What is the sell  Price number?");
-                            sellPrice = inputChecker.Numberic(Console.ReadLine());
+                            decimal sellPrice = inputChecker.Numberic(Console.ReadLine());
 
                             inputChecker.Deffrence(buyPrice, sellPrice);
 
-                            Article newArticle = new Article(articleName, reference, buyPrice, sellPrice);
-                            stock.ArticleList.Add(newArticle);
-                            Console.WriteLine("the article added Successfully ");
+    
+                            stock.AddArticle(stock, articleName, reference, buyPrice, sellPrice);
                             break;
 
                         case 2:
-                            
+                          
                             PrintInventory(stock);
                             break;
+                        case 3:
 
+                            Console.WriteLine("You choose to delete an article pls type Articale Number of the article");
+                            int delete = (int)inputChecker.Numberic(Console.ReadLine());
+                            stock.DeleteArticle(stock,delete);
+
+                            break;
+                            
                     }
 
                     action = ChooseAction();
@@ -75,8 +77,7 @@ namespace GestionDeStock
 
         }
 
-
-
+        
 
         private static void PrintInventory(Stock stock)
         {
@@ -84,11 +85,15 @@ namespace GestionDeStock
             {
                 Console.WriteLine("Inventory is empty choose (1) TO ADD A NEW ARTICLE TO INVENTORY");
             }
-            for ( int i = 0; i < stock.ArticleList.Count; i++)
+            else
             {
-               
-                Console.WriteLine("Article : {1}",stock.ArticleList[i].SowArticles());
+                for (int i = 0; i < stock.ArticleList.Count; i++)
+                {
+
+                    Console.WriteLine("Article #{0}: {1}",i + 1, stock.ArticleList[i].SowArticles());
+                }
             }
+          
         }
 
 
@@ -100,7 +105,7 @@ namespace GestionDeStock
             
 
                 decimal choice;
-                Console.WriteLine("choose an action (0) to quit (1) to add a new article to inventory (2) checkout the inventory");
+                Console.WriteLine("choose an action (0) to quit (1) to add a new article to inventory (2) checkout the inventory (3) Delete article");
                 choice = inputChecker.Numberic(Console.ReadLine());
                 return (int)choice;
             

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GestionDeStock
 {
-    class InputChecker : Article
+    class InputChecker
     {
        
 
@@ -26,7 +26,7 @@ namespace GestionDeStock
 
 
 
-            
-        
+       
+
     }
 }

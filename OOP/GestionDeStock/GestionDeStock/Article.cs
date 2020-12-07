@@ -15,13 +15,7 @@ namespace GestionDeStock
 
         
 
-        public Article()
-        {
-            Name = "nothing set";
-            Reference = 0;
-            Sell = 0.00M;
-            Buy = 0.00M;
-        }
+   
         public Article(string articleName, int articleReference, decimal buyPrice, decimal sellPrice)
         {
             Name = articleName;
@@ -29,12 +23,6 @@ namespace GestionDeStock
             Buy = buyPrice;
             Sell = sellPrice;
             
-        }
-
-        public Article(decimal buyPrice, decimal sellPrice)
-        {
-            this.Buy = buyPrice;
-            this.Sell = sellPrice;
         }
 
         public  string SowArticles()
