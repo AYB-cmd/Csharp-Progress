@@ -13,6 +13,7 @@ namespace GestionDeStock
 
             if (argBuy > argSell) throw new ArgumentException("sell price is less than buy price.");
 
+
         }
 
 

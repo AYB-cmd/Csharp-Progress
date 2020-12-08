@@ -8,10 +8,10 @@ namespace GestionDeStock
     {
      
 
-        public string Name { get; set; }
-        public int Reference { get; set; }
-        public decimal Sell { get; set; }
-        public decimal Buy { get; set; }
+        public string Name { get; set;}
+        public int Reference { get; set;}
+        public decimal Sell { get; set;}
+        public decimal Buy { get; set;}
 
         
 
@@ -25,7 +25,7 @@ namespace GestionDeStock
             
         }
 
-        public  string SowArticles()
+        public  string ShowArticles()
         {
             return string.Format("Name: {0}. Reference Number: {1}. Sell price: {2}DH. Buy price: {3}DH", Name, Reference, Sell, Buy);
         }
