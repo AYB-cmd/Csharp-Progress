@@ -11,9 +11,9 @@ namespace GestionDeStock
         public void  Deffrence(decimal argBuy, decimal argSell)
         {
 
-            if (argBuy > argSell) throw new ArgumentException("sell price is less than buy price.");
 
-
+/*            if (argBuy > argSell) throw new ArgumentException("sell price is less than buy price.");
+*/
         }
 
 

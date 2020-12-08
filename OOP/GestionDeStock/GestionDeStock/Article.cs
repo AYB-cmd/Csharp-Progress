@@ -22,7 +22,8 @@ namespace GestionDeStock
             Reference = articleReference;
             Buy = buyPrice;
             Sell = sellPrice;
-            
+
+            if (Buy > Sell) throw new ArgumentException("sell price is less than buy price.");
         }
 
         public  string ShowArticles()

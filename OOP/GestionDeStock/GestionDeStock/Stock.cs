@@ -11,27 +11,11 @@ namespace GestionDeStock
         {
             ArticleList = new List<Article>();
         }
+         
 
 
 
-
-        public void Delete(Stock stock, int selectedArticle)
-        {
-
-            if (stock.ArticleList.Count < selectedArticle)
-            {
-                Console.WriteLine("Articale number is invalid ");
-            }
-            else
-            {
-                for (int i = 0; i < stock.ArticleList.Count; i++)
-                {
-                    stock.ArticleList.RemoveAt(selectedArticle - 1);
-                    Console.WriteLine("Successfully Deleted");
-                }
-            }
-
-        }
+  
 
 
         public void Add(Stock stock, string articleName, int reference, decimal buyPrice, decimal sellPrice)
@@ -55,6 +39,24 @@ namespace GestionDeStock
 
         }
 
+        public void Delete(Stock stock, int selectedArticle)
+        {
+
+            if (stock.ArticleList.Count < selectedArticle)
+            {
+                throw new ArgumentException("your stock is empty");
+            }
+            else
+            {
+                for (int i = 0; i < stock.ArticleList.Count; i++)
+                {
+                    stock.ArticleList.RemoveAt(selectedArticle - 1);
+                    Console.WriteLine("Successfully Deleted");
+                }
+            }
+
+        }
+
         public void Search(Stock stock, string searchMethode, string keyWord)
         {
 
@@ -73,7 +75,7 @@ namespace GestionDeStock
 
                     }
                     break;
-
+                //search by article reference
                 case "reference":
                     int refernceNumber = Convert.ToInt32(keyWord);
                     for (int i = 0; i < stock.ArticleList.Count; i++)
@@ -87,6 +89,7 @@ namespace GestionDeStock
 
                     }
                     break;
+                //search by buyprice
                 case "buyprice":
                     decimal buyprice = Convert.ToDecimal(keyWord);
                     for (int i = 0; i < stock.ArticleList.Count; i++)
@@ -100,6 +103,7 @@ namespace GestionDeStock
                     }
 
                     break;
+                //search by sell price
                 case "sellprice":
                     decimal sellprice = Convert.ToDecimal(keyWord);
                     for (int i = 0; i < stock.ArticleList.Count; i++)
@@ -114,6 +118,19 @@ namespace GestionDeStock
 
                     break;
 
+                case "greater than":
+
+                    decimal buy = Convert.ToDecimal(keyWord);
+                    for (int i = 0; i < stock.ArticleList.Count; i++)
+                    {
+                        var article = ArticleList[i].Sell;
+                        if (article >= buy)
+                        {
+                            Console.WriteLine(ArticleList[i].ShowArticles());
+                        }
+
+                    }
+                    break;
 
                 default:
                     throw new ArgumentException("Invalid Option");
@@ -123,7 +140,7 @@ namespace GestionDeStock
 
 
 
-            /*var result = stock.ArticleList[selectedArticle - 1];*/
+           
         }
 
     }

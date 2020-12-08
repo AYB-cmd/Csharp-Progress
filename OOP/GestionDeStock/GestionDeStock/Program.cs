@@ -16,7 +16,8 @@ namespace GestionDeStock
             Console.WriteLine("Welcome to the store.");
 
             //action will be a return number from choose method
-            int action = ChooseAction();
+            var action = ChooseAction();
+           
 
 
             //Loop for program to keep running or to be closed once you want to
@@ -28,7 +29,10 @@ namespace GestionDeStock
 
                     switch (action)
                     {
-
+                        /*case -1:
+                            ChooseAction();
+                            break;*/
+                        
                         case 1:
                             //To auto-incremente  artical reference number 
 
@@ -44,7 +48,7 @@ namespace GestionDeStock
                             Console.WriteLine("What is the sell  Price number?");
                             decimal sellPrice = inputChecker.Numberic(Console.ReadLine());
 
-                            inputChecker.Deffrence(buyPrice, sellPrice);
+                            /*inputChecker.Deffrence(buyPrice, sellPrice);*/
 
 
                             stock.Add(stock, articleName, reference, buyPrice, sellPrice);
@@ -84,7 +88,7 @@ namespace GestionDeStock
 
                         case 5:
 
-                            Console.WriteLine("pls type Your search method By( name,reference,sellprice,buyprice)");
+                            Console.WriteLine("pls type Your search method By( name,reference,sellprice,buyprice,greater than)");
                             string searchmethod = Console.ReadLine();
 
                             Console.WriteLine(SearchQuestion(searchmethod)); 
@@ -136,8 +140,10 @@ namespace GestionDeStock
             InputChecker inputChecker = new InputChecker();
 
             decimal choice;
-            Console.WriteLine("choose an action (0) to quit (1) to add a new article to inventory (2) checkout the inventory (3) Delete article");
+            
+            Console.WriteLine("choose an action (0) to quit (1) to add a new article to inventory (2) checkout the inventory (3) Delete article (4) Modify an article (5) search an article");
             choice = inputChecker.Numberic(Console.ReadLine());
+           
             return (int)choice;
 
         }
@@ -158,7 +164,7 @@ namespace GestionDeStock
 
                 
             }
-            else if (chosenInput.ToLower() == "sellprice" || chosenInput.ToLower() == "buyprice")
+            else if (chosenInput.ToLower() == "sellprice" || chosenInput.ToLower() == "buyprice" || chosenInput.ToLower() ==  "greater than")
             {
                 msg = "please type a price";
 
