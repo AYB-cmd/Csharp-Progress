@@ -19,7 +19,22 @@
         </Grid.RowDefinitions>
 
 
-        <ContentControl Grid.Row="1" Grid.Column="1" x:Name="ActiveItem"/>
+        <!--<ContentControl Grid.Row="1" Grid.Column="1" x:Name="ActiveItem"/>-->
+
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition  Height="20" />
+                <RowDefinition  Height="80" />
+                <RowDefinition  Height="*"/>
+                <RowDefinition  Height="80" />
+            </Grid.RowDefinitions>
+            
+        </Grid>
 
         <!-- sideBar -->
         <Grid Grid.Row="1" Background="#FF1062B1">
