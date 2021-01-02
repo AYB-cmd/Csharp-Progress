@@ -35,8 +35,6 @@ namespace PCleaner.MVVM.ViewModels
             long cK = Analyse.Cookies(new DirectoryInfo(cookies));
             long total = tmp + cK;
             EspaceAnettoyer = String.Format("The size is {0} Mb.", cK+tmp);
-
-
         }
 
 
