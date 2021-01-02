@@ -25,7 +25,7 @@
                     <TextBlock Text="Analyse du PC necessaire" VerticalAlignment="Top"  FontSize="28" FontWeight="Bold"/>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Espace a nettoyer : " FontSize="18" Margin="3"/>
-                        <TextBlock Text="a déterminer par analyse" FontSize="18" Margin="3"/>
+                    <TextBlock Text="{Binding Path=EspaceAnettoyer, Mode=TwoWay}" FontSize="18" Margin="3"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Dernière analyse : " FontSize="18" Margin="3"/>
@@ -36,7 +36,7 @@
                         <TextBlock Text="10/11/2020" FontSize="18" Margin="3"/>
                     </StackPanel>
                 </StackPanel>
-                <Button Grid.Column="2" Content="Analyser" Foreground="White" FontSize="25" Width="240" Height="60" Background="#FF1E8CE5" BorderBrush="White" BorderThickness="3"/>
+                <Button Grid.Column="2" x:Name="Analyzer" Content="Analyser" Foreground="White" FontSize="25" Width="240" Height="60" Background="#FF1E8CE5" BorderBrush="White" BorderThickness="3" />
             </Grid >
             <Grid Grid.Row="1">
                 <StackPanel Orientation="Horizontal">

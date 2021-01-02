@@ -79,8 +79,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\Analyse.cs" />
     <Compile Include="ViewModels\EnsenbleViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Compile Include="Views\Analyser.xaml.cs">
+      <DependentUpon>Analyser.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\EnsenbleView.xaml.cs">
       <DependentUpon>EnsenbleView.xaml</DependentUpon>
     </Compile>
@@ -116,10 +120,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-  <ItemGroup>
+    <Page Include="Views\Analyser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\EnsenbleView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PCleaner.MVVM.Views" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:PCleaner.MVVM.Views" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:cal="http://www.caliburnproject.org"
         mc:Ignorable="d"
         Foreground="White"
         Title="PCleaner" Height="600" Width="1024" ResizeMode="NoResize"   WindowStartupLocation="CenterScreen" WindowStyle="None">
@@ -19,22 +19,11 @@
         </Grid.RowDefinitions>
 
 
-        <!--<ContentControl Grid.Row="1" Grid.Column="1" x:Name="ActiveItem"/>-->
+        <ContentControl Grid.Row="1" Grid.Column="1" x:Name="ActiveItem"/>
 
-        <Grid Grid.Row="1" Grid.Column="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="20"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="20"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition  Height="20" />
-                <RowDefinition  Height="80" />
-                <RowDefinition  Height="*"/>
-                <RowDefinition  Height="80" />
-            </Grid.RowDefinitions>
-            
-        </Grid>
+
+
+
 
         <!-- sideBar -->
         <Grid Grid.Row="1" Background="#FF1062B1">
@@ -48,7 +37,7 @@
             <Grid>
 
                  <Image Source="/Views/Assist/Img/LogoPcleaner.png"
-HorizontalAlignment="Left"  />
+                HorizontalAlignment="Left"  />
                 <TextBlock Text="PCleaner®" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="129,0,0,0" FontFamily="Gill Sans MT"   FontWeight="Bold" FontStyle="Italic" Foreground="White" FontSize="14"/>
 
             </Grid>
