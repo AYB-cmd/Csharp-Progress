@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PCleaner.MVVM.Models;
+using PCleaner.MVVM.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +21,13 @@ namespace PCleaner.MVVM.Views
     /// </summary>
     public partial class ShellView : Window
     {
+        ShellViewModel defualt = new ShellViewModel();
+        Hestorique hestorique = new Hestorique();
         public ShellView()
         {
             InitializeComponent();
+            string lastAnalyse = hestorique.LastAnalyse();
+            
         }
 
        
@@ -48,5 +54,6 @@ namespace PCleaner.MVVM.Views
                 MessageBox.Show(ex.Message);
             }
         }
+        
     }
 }

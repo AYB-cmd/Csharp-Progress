@@ -1,6 +1,8 @@
 ﻿using Caliburn.Micro;
+using PCleaner.MVVM.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,8 +11,11 @@ using System.Windows.Media.Animation;
 
 namespace PCleaner.MVVM.ViewModels
 {
-    public class ShellViewModel :  Conductor<Object>
+    public class ShellViewModel : Conductor<Object>
     {
+        Hestorique hestorique = new Hestorique();
+        public DateTime DateShell;
+        
 
         private int _CurrentProgress = 30;
         public int CurrentProgress
@@ -44,10 +49,12 @@ namespace PCleaner.MVVM.ViewModels
         }
     public void ButtonEnsenble()
         {
-            ActivateItem(new EnsenbleViewModel());
+            string lastAnalyse = hestorique.LastAnalyse();
+            ActivateItem(new EnsenbleViewModel(lastAnalyse));
         }
+        
 
-     
+
 
 
     }

@@ -13,7 +13,7 @@
         <Menu Height="30" FontSize="14" DockPanel.Dock="Top">
             <MenuItem Header="File">
                 <MenuItem Click="NewDB_Click"  x:Name="NewDB" Header="New"/>
-                <MenuItem Click="OpenDB_Click" x:Name="OpenDB" Header="Open"/>
+                <MenuItem  x:Name="OpenDB" Header="Open"/>
                 <MenuItem Click="SaveDB_Click" x:Name="SaveDB" Header="Save"/>
                 <MenuItem Click="SaveDbAs_Click" x:Name="SaveDbAs" Header="SaveAs"/>
                 <MenuItem Click="StartGame_Click" x:Name="StartGame" Header="Start Game"/>

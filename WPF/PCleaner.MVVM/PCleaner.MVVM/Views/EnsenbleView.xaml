@@ -29,7 +29,7 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Dernière analyse : " FontSize="18" Margin="3"/>
-                        <TextBlock Text="12/12/2020" FontSize="18" Margin="3"/>
+                    <TextBlock Text="{Binding Path=DateAnalyse, Mode=TwoWay}" FontSize="18" Margin="3"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Derière Mettre a jour : " FontSize="18" Margin="3"/>

@@ -7,6 +7,8 @@ namespace TrueFalseGame
     [Serializable]
     public class Statement
     {
+        public string Text { get; set; }
+        public bool IsTrue { get; set; }
         public Statement()
         {
         }
@@ -16,7 +18,6 @@ namespace TrueFalseGame
             IsTrue = isTrue;
         }
 
-        public string Text { get; set; }
-        public bool IsTrue { get; set; }
+        
     }
 }

@@ -7,32 +7,43 @@ using System.Threading.Tasks;
 
 namespace PCleaner.MVVM.Models
 {
-    class Analyse
+    public class Analyse
     {
-        public string Path { get; set; }
+        // public string Path { get; set; }
+
+        public DateTime DateAnalyse { get; }
+        public long Cks { get; }
+        public long Tmps { get; }
+
+
         public Analyse()
         {
-                
+            DateAnalyse = DateTime.Now;
         }
-        public Analyse(string path)
+        public Analyse(DateTime date, long cks, long tmps)
         {
-            Path = path;
+            DateAnalyse = date;
+            Cks = cks;
+            Tmps = tmps;
         }
+
 
         /// <summary>
         /// Calcul Cookies Size
         /// </summary>
-        /// <param name="d"> Directory path</param>
         /// <returns> Size Type Long</returns>
-        public static long Cookies(DirectoryInfo d)
+        public static long Cookies()
         {
+            DirectoryInfo path = new DirectoryInfo("C:/Users/youcode/AppData/Local/Google/Chrome/User Data/Default");
+                
             long size = 0;
-            FileInfo[] fis = d.GetFiles();
+            FileInfo[] fis = path.GetFiles();
             foreach (FileInfo fi in fis)
             {
                 if (fi.Name == "Cookies")
                     size = fi.Length;
             }
+
 
             return size / (1024 * 1024);
 
@@ -40,22 +51,22 @@ namespace PCleaner.MVVM.Models
         /// <summary>
         /// Calcul directory Size
         /// </summary>
-        /// <param name="d"> Directory Path</param>
         /// <returns> Size Type Long</returns>
-        public static long Tmp(DirectoryInfo d)
+        public static long Tmp()
         {
+            DirectoryInfo path =  new DirectoryInfo("C:/Windows/Temp");
             long size = 0;
-            FileInfo[] fis = d.GetFiles();
+            FileInfo[] fis = path.GetFiles();
             foreach (FileInfo fi in fis)
             {
                 size += fi.Length;
             }
 
-            DirectoryInfo[] dis = d.GetDirectories();
+           /* DirectoryInfo[] dis = path.GetDirectories();
             foreach (DirectoryInfo di in dis)
             {
                 size += Tmp(di);
-            }
+            }*/
             return size / (1024 * 1024);
         }
     }

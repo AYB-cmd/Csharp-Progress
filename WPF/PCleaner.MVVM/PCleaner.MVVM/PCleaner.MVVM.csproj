@@ -81,6 +81,7 @@
     </Compile>
     <Compile Include="Models\Analyse.cs" />
     <Compile Include="Models\Hestorique.cs" />
+    <Compile Include="Models\Statement.cs" />
     <Compile Include="Models\Nettoyer.cs" />
     <Compile Include="ViewModels\EnsenbleViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />

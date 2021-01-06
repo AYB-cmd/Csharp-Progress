@@ -12,6 +12,7 @@ namespace PCleaner.MVVM.ViewModels
 {
     class EnsenbleViewModel : Screen
     {
+        Hestorique hestorique = new Hestorique();
         private string _EspaceAnettoyer = "a déterminer par analyse";
         public string EspaceAnettoyer
         {
@@ -25,25 +26,48 @@ namespace PCleaner.MVVM.ViewModels
                 NotifyOfPropertyChange(() => EspaceAnettoyer);
             }
         }
-        
-        public void Analyzer()
+
+        private string _DateAnalyse;
+        public string DateAnalyse
         {
-            //String.Format("The size is {0} Mb.", DirSize(new DirectoryInfo("C:/Windows/Temp")));
-            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-            long tmp = Analyse.Tmp(new DirectoryInfo("C:/Windows/Temp"));
-            string cookies = "C:/Users/youcode/AppData/Local/Google/Chrome/User Data/Default";
-            long cK = Analyse.Cookies(new DirectoryInfo(cookies));
-            long total = tmp + cK;
-            EspaceAnettoyer = String.Format("The size is {0} Mb.", cK+tmp);
+            get
+            {
+                return _DateAnalyse;
+            }
+            set
+            {
+                _DateAnalyse = value;
+                NotifyOfPropertyChange(() => DateAnalyse);
+            }
         }
 
+        //to defind the last analyse
+        public EnsenbleViewModel(string lastAnalyse)
+        {
+            DateAnalyse = lastAnalyse;
+        }
+
+    public void Analyzer()
+        {
 
 
+            
+            long tmp = Analyse.Tmp();
+            long cooKies = Analyse.Cookies();
+            long total = tmp + cooKies;
 
+            // To give the fields some values;
+            EspaceAnettoyer = String.Format("There is {0} Mb Need to be cleaned", total);
+            DateAnalyse = new Analyse().DateAnalyse.ToString();
 
+            //To make a hestoric
+            Statement statement = new Statement(cooKies, tmp);
+            hestorique.RightToHestoric(statement);
+            
+           
+        }
 
-
-
+     
 
 
     }

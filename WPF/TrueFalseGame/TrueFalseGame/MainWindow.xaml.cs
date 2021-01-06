@@ -70,11 +70,11 @@ namespace TrueFalseGame
             }
         }
 
-        private void OpenDB_Click(object sender, RoutedEventArgs e)
+       /private void OpenDB_Click(object sender, RoutedEventArgs e)
         {
             var ofd = new OpenFileDialog
             {
-                InitialDirectory = Path.GetDirectoryName(AssemblyLoadEventArgs.GetExecutingAssembly().location)
+                InitialDirectory = Path.GetDirectoryName(AssemblyLoadEventArgs.GetExecutingAssembly().location);
             }
             if (ofd.ShowDialog() == true)
             {
@@ -148,7 +148,7 @@ namespace TrueFalseGame
 
         private void StatementText_TextChanged(object sender, TextChangedEventArgs e)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }
