@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using PCleaner.MVVM.Models;
+using PCleaner.MVVM.Views;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,7 +18,7 @@ namespace PCleaner.MVVM.ViewModels
         public DateTime DateShell;
         
 
-        private int _CurrentProgress = 30;
+       /* private int _CurrentProgress = 30;
         public int CurrentProgress
         {
             get
@@ -41,7 +42,7 @@ namespace PCleaner.MVVM.ViewModels
         {
             Value = 20;
         }
-
+*/
 
         public void ButtonClose()
         {
@@ -52,7 +53,16 @@ namespace PCleaner.MVVM.ViewModels
             string lastAnalyse = hestorique.LastAnalyse();
             ActivateItem(new EnsenbleViewModel(lastAnalyse));
         }
+
+
+        public void ButtonAnalyse()
+        {
+            //string lastAnalyse = hestorique.LastAnalyse();
+            ActivateItem(new AnalyserViewModel());
+        }
+
         
+
 
 
 

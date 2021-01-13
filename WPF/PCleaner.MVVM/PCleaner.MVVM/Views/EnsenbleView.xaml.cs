@@ -25,6 +25,7 @@ namespace PCleaner.MVVM.Views
             InitializeComponent();
         }
 
-     
+          
+      
     }
 }

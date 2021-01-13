@@ -10,8 +10,10 @@ using PCleaner.MVVM.Models;
 
 namespace PCleaner.MVVM.ViewModels
 {
+    
     class EnsenbleViewModel : Screen
     {
+        ShellViewModel home = new ShellViewModel();
         Hestorique hestorique = new Hestorique();
         private string _EspaceAnettoyer = "a déterminer par analyse";
         public string EspaceAnettoyer
@@ -50,8 +52,6 @@ namespace PCleaner.MVVM.ViewModels
     public void Analyzer()
         {
 
-
-            
             long tmp = Analyse.Tmp();
             long cooKies = Analyse.Cookies();
             long total = tmp + cooKies;
@@ -66,7 +66,10 @@ namespace PCleaner.MVVM.ViewModels
             
            
         }
-
+        public void BtNettoyer()
+        {
+           home.ActivateItem(new AnalyserViewModel()); ;
+        }
      
 
 

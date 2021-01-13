@@ -21,7 +21,7 @@ namespace PCleaner.MVVM.Views
     /// </summary>
     public partial class ShellView : Window
     {
-        ShellViewModel defualt = new ShellViewModel();
+        
         Hestorique hestorique = new Hestorique();
         public ShellView()
         {
@@ -54,6 +54,7 @@ namespace PCleaner.MVVM.Views
                 MessageBox.Show(ex.Message);
             }
         }
-        
+
+     
     }
 }

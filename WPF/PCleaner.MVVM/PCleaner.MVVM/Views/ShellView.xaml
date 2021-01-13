@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
         xmlns:local="clr-namespace:PCleaner.MVVM.Views" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:cal="http://www.caliburnproject.org"
         mc:Ignorable="d"
         Foreground="White"
@@ -35,11 +36,9 @@
                 <DropShadowEffect BlurRadius="20" Color="#FF908181" RenderingBias="Quality" ShadowDepth="1"/>
             </Grid.Effect>
             <Grid>
-
-                 <Image Source="/Views/Assist/Img/LogoPcleaner.png"
+                <Image Source="/Views/Assist/Img/LogoPcleaner.png"
                 HorizontalAlignment="Left"  />
                 <TextBlock Text="PCleaner®" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="129,0,0,0" FontFamily="Gill Sans MT"   FontWeight="Bold" FontStyle="Italic" Foreground="White" FontSize="14"/>
-
             </Grid>
             <StackPanel Grid.Row="1">
                 <Button x:Name="ButtonEnsenble" Margin="0 10 0 2"   Background="#FF1E77C7"  BorderBrush="#FF1E77C7" Foreground="White" >

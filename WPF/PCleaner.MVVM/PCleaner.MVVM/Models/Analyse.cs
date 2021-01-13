@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace PCleaner.MVVM.Models
 {
-    public class Analyse
+    class Analyse
     {
-        // public string Path { get; set; }
-
         public DateTime DateAnalyse { get; }
         public long Cks { get; }
         public long Tmps { get; }
@@ -35,7 +33,7 @@ namespace PCleaner.MVVM.Models
         public static long Cookies()
         {
             DirectoryInfo path = new DirectoryInfo("C:/Users/youcode/AppData/Local/Google/Chrome/User Data/Default");
-                
+
             long size = 0;
             FileInfo[] fis = path.GetFiles();
             foreach (FileInfo fi in fis)
@@ -54,7 +52,7 @@ namespace PCleaner.MVVM.Models
         /// <returns> Size Type Long</returns>
         public static long Tmp()
         {
-            DirectoryInfo path =  new DirectoryInfo("C:/Windows/Temp");
+            DirectoryInfo path = new DirectoryInfo("C:/Windows/Temp");
             long size = 0;
             FileInfo[] fis = path.GetFiles();
             foreach (FileInfo fi in fis)
@@ -62,11 +60,11 @@ namespace PCleaner.MVVM.Models
                 size += fi.Length;
             }
 
-           /* DirectoryInfo[] dis = path.GetDirectories();
-            foreach (DirectoryInfo di in dis)
-            {
-                size += Tmp(di);
-            }*/
+            /* DirectoryInfo[] dis = path.GetDirectories();
+             foreach (DirectoryInfo di in dis)
+             {
+                 size += Tmp(di);
+             }*/
             return size / (1024 * 1024);
         }
     }

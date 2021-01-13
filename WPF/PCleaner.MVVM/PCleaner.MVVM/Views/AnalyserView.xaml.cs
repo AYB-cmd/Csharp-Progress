@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace PCleaner.MVVM.Views
 {
     /// <summary>
-    /// Interaction logic for Analyser.xaml
+    /// Interaction logic for AnalyserView.xaml
     /// </summary>
-    public partial class Analyser : UserControl
+    public partial class AnalyserView : UserControl
     {
-        public Analyser()
+        public AnalyserView()
         {
             InitializeComponent();
         }

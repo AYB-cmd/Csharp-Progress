@@ -3,18 +3,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:hc="https://handyorg.github.io/handycontrol"
              xmlns:local="clr-namespace:PCleaner.MVVM.Views" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
     
             <!--Body-->
-        <Grid Grid.Row="1" Grid.Column="1">
+    
+
+
+    <Grid Grid.Row="1" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="300"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <!-- top Body-->
+        
             <Grid Background="#FF1E8CE5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>
@@ -40,9 +45,9 @@
             </Grid >
             <Grid Grid.Row="1">
                 <StackPanel Orientation="Horizontal">
-
-                    <Grid >
-                        <Button Foreground="White" Background="#FF1E8CE5" BorderThickness="0" FontSize="25" Width="190" Height="200" Margin="40 0">
+               
+                <Grid > 
+                        <Button Foreground="White" x:Name="BtNettoyer" Background="#FF1E8CE5" BorderThickness="0" FontSize="25" Width="190" Height="200" Margin="40 0" >
                             <StackPanel Orientation="Vertical"   >
                                 <materialDesign:PackIcon  Height="50" Width="50" HorizontalAlignment="Center" VerticalAlignment="Center" Kind="TelevisionClean"/>
                                 <Separator Height="10" Width="80" />
@@ -92,7 +97,6 @@
             </Grid>
 
 
-
-        </Grid>
+    </Grid>
     
 </UserControl>
