@@ -94,7 +94,7 @@ namespace SimpleDataApp
                 }
                 catch
                 {
-                    MessageBox.Show("The requested Customer  could not be loaded into the form.");
+                    MessageBox.Show("The requested Customer could not be loaded into the form.");
                 }
                 finally
                 {

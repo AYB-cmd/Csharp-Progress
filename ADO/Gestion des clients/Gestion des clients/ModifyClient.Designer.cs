@@ -210,6 +210,7 @@ namespace SimpleDataApp
             this.btnApply.TabIndex = 7;
             this.btnApply.Text = "apply";
             this.btnApply.UseVisualStyleBackColor = true;
+            this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
             // 
             // ModifyClient
             // 

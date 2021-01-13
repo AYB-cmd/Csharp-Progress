@@ -72,5 +72,31 @@ namespace SimpleDataApp
         {
             this.Close();
         }
+
+        private void btnApply_Click(object sender, EventArgs e)
+        {
+            if (IsCustomerAdressValid() && IsCustomerNameValid())
+            {
+
+
+                try
+                {
+
+                    
+                    //debug
+                    MessageBox.Show("Worked!! there is nothing to push yet...AssHole ,.,||,.,");
+
+                }
+                catch
+                {
+                    MessageBox.Show("The requested Customer  could not be loaded into the form.");
+                }
+                finally
+                {
+
+                }
+
+            }
+        }
     }
 }
