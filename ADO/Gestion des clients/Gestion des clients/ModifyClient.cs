@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -10,93 +11,128 @@ namespace SimpleDataApp
 {
     public partial class ModifyClient : Form
     {
-        private string customerName { get; set; }
- 
-        
+        private string customerID { get; set; }
+
+
         public ModifyClient()
         {
             InitializeComponent();
         }
-        public ModifyClient(string name)
+        public ModifyClient(string ID)
         {
-            this.customerName = name;
-            
+            this.customerID = ID;
+
             InitializeComponent();
             SetValue();
         }
-        private string CustomerLastName;
-        private string City;
         private string CustomerFirstName;
+        private string CustomerLastName;
         private string Address;
+        private string City;
+
+
 
         private void SetValue()
         {
-            getCustomeFirstName.Text = customerName;
-            getCustomerLastName.Text = "this is customer last name";
-            getCustomerAddress.Text = "this is customer address";
-            getCustomerCity.Text = "this is customer city";
+            using (SqlConnection connection = new SqlConnection(Properties.Settings.Default.connString))
+            {
 
-        }
-        private bool IsCustomerNameValid()
-        {
-            
-            if (txtFirstName.Text == "" || txtLastName.Text == "")
-            {
-                
-                return true;
-            }
-            else
-            {
-                this.CustomerLastName = txtLastName.Text;
-                this.CustomerFirstName = txtFirstName.Text;
-                return true;
+                using (SqlCommand Command = new SqlCommand("SelectClientToUpadate", connection))
+                {
+                    Command.CommandType = CommandType.StoredProcedure;
+                    Command.Parameters.Add(new SqlParameter("@ID", SqlDbType.Int));
+                    Command.Parameters["@ID"].Value = customerID;
+                    try
+                    {
+                        connection.Open();
+
+                        using (SqlDataReader dataReader = Command.ExecuteReader())
+                        {
+                            DataTable dataTable = new DataTable();
+                            dataTable.Load(dataReader);
+                            getCustomeFirstName.Text = dataTable.Rows[0][1].ToString();
+                            getCustomerLastName.Text = dataTable.Rows[0][2].ToString();
+                            getCustomerAddress.Text = dataTable.Rows[0][3].ToString();
+                            getCustomerCity.Text = dataTable.Rows[0][4].ToString();
+                            dataReader.Close();
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("You requeste could not be loaded into the form.");
+                    }
+                    finally
+                    {
+                        connection.Close();
+                    }
+                }
             }
         }
 
-        private bool IsCustomerAdressValid()
-        {
-            if (txtAddress.Text == "" || txtCity.Text == "")
-            {
-                
-                return true;
-            }
-            else
-            {
-                this.City = txtCity.Text;
-                this.Address = txtAddress.Text;
-                return true;
-            }
-        }
+
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        private bool IsInfoValid()
+        {
+            if (txtFirstName.Text == "" || txtLastName.Text == "" || txtAddress.Text == "" || txtCity.Text == "")
+            {
+                MessageBox.Show("Please fill all the fields");
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
         private void btnApply_Click(object sender, EventArgs e)
         {
-            if (IsCustomerAdressValid() && IsCustomerNameValid())
+
+
+            if (IsInfoValid())
             {
-
-
-                try
+                using (SqlConnection connection = new SqlConnection(Properties.Settings.Default.connString))
                 {
+                    using (SqlCommand sqlCommand = new SqlCommand("UpdateClient", connection))
+                    {
+                        sqlCommand.CommandType = CommandType.StoredProcedure;
+                        sqlCommand.Parameters.Add(new SqlParameter("@ID", SqlDbType.NVarChar, (40)));
+                        sqlCommand.Parameters["@ID"].Value = customerID;
+                        sqlCommand.Parameters.Add(new SqlParameter("@FName", SqlDbType.NVarChar, (40)));
+                        sqlCommand.Parameters["@FName"].Value = txtFirstName.Text;
+                        sqlCommand.Parameters.Add(new SqlParameter("@LName", SqlDbType.NVarChar, (40)));
+                        sqlCommand.Parameters["@LName"].Value = txtLastName.Text;
+                        sqlCommand.Parameters.Add(new SqlParameter("@CAddress", SqlDbType.NVarChar, (40)));
+                        sqlCommand.Parameters["@CAddress"].Value = txtAddress.Text;
+                        sqlCommand.Parameters.Add(new SqlParameter("@City", SqlDbType.NVarChar, (40)));
+                        sqlCommand.Parameters["@City"].Value = txtCity.Text;
 
-                    
-                    //debug
-                    MessageBox.Show("Worked!! there is nothing to push yet...AssHole ,.,||,.,");
+                        try
+                        {
+                            connection.Open();
 
+                            sqlCommand.ExecuteNonQuery();
+
+                            MessageBox.Show(" Updated successfully.");
+
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Customer ID was not returned. Account could not be created.");
+                        }
+                        finally
+                        {
+
+                            connection.Close();
+                            SetValue();
+                        }
+                    }
                 }
-                catch
-                {
-                    MessageBox.Show("The requested Customer  could not be loaded into the form.");
-                }
-                finally
-                {
-
-                }
-
             }
         }
     }
+
 }

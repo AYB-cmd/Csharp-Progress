@@ -23,7 +23,7 @@ namespace MVVM.Models
             set
             {
                 _Name = value;
-                OnPropertyChanged("Name");
+                OnPropertyChanged(_Name);
             }
         }
 

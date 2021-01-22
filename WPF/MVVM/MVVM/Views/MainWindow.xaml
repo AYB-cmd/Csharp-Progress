@@ -5,10 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MVVM.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="300" Width="300">
+        Title="MainWindow" Height="300" Width="443">
     <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
         <Label>Customer name</Label>
-        <TextBox Text="{Binding Customer.Name, UpdateSourceTrigger=PropertyChanged}" Width="136"/>
+        <TextBox Text="{Binding Customer.Name,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="136"/>
         <Button Command="{Binding UpdateCommand}">Update</Button>
+        <TextBox Text="{Binding Customer.Name, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  Width="136"/>
     </StackPanel>
+    
+    
 </Window>

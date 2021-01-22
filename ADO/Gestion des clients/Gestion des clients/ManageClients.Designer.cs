@@ -32,7 +32,7 @@ namespace SimpleDataApp
             this.label1 = new System.Windows.Forms.Label();
             this.txtCustomerFullName = new System.Windows.Forms.TextBox();
             this.btnFindCustomer = new System.Windows.Forms.Button();
-            this.dgvCustomerOrders = new System.Windows.Forms.DataGridView();
+            this.dgvCustomerInfo = new System.Windows.Forms.DataGridView();
             this.label2 = new System.Windows.Forms.Label();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
@@ -41,7 +41,7 @@ namespace SimpleDataApp
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnFindCity = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvCustomerOrders)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCustomerInfo)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -77,19 +77,19 @@ namespace SimpleDataApp
             this.btnFindCustomer.UseVisualStyleBackColor = true;
             this.btnFindCustomer.Click += new System.EventHandler(this.btnFindCustomer_Click);
             // 
-            // dgvCustomerOrders
+            // dgvCustomerInfo
             // 
-            this.dgvCustomerOrders.AccessibleName = "";
-            this.dgvCustomerOrders.BackgroundColor = System.Drawing.SystemColors.Control;
-            this.dgvCustomerOrders.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvCustomerOrders.Location = new System.Drawing.Point(57, 206);
-            this.dgvCustomerOrders.Name = "dgvCustomerOrders";
-            this.dgvCustomerOrders.ReadOnly = true;
-            this.dgvCustomerOrders.RowHeadersVisible = false;
-            this.dgvCustomerOrders.RowHeadersWidth = 51;
-            this.dgvCustomerOrders.RowTemplate.Height = 29;
-            this.dgvCustomerOrders.Size = new System.Drawing.Size(705, 188);
-            this.dgvCustomerOrders.TabIndex = 4;
+            this.dgvCustomerInfo.AccessibleName = "";
+            this.dgvCustomerInfo.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.dgvCustomerInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvCustomerInfo.Location = new System.Drawing.Point(95, 206);
+            this.dgvCustomerInfo.Name = "dgvCustomerInfo";
+            this.dgvCustomerInfo.ReadOnly = true;
+            this.dgvCustomerInfo.RowHeadersVisible = false;
+            this.dgvCustomerInfo.RowHeadersWidth = 51;
+            this.dgvCustomerInfo.RowTemplate.Height = 29;
+            this.dgvCustomerInfo.Size = new System.Drawing.Size(628, 188);
+            this.dgvCustomerInfo.TabIndex = 4;
             // 
             // label2
             // 
@@ -193,11 +193,11 @@ namespace SimpleDataApp
             this.Controls.Add(this.btnFinishUpdates);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnUpdate);
-            this.Controls.Add(this.dgvCustomerOrders);
+            this.Controls.Add(this.dgvCustomerInfo);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Name = "ManageClients";
             this.Text = "Form2";
-            ((System.ComponentModel.ISupportInitialize)(this.dgvCustomerOrders)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCustomerInfo)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -211,7 +211,7 @@ namespace SimpleDataApp
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtCustomerFullName;
         private System.Windows.Forms.Button btnFindCity;
-        private System.Windows.Forms.DataGridView dgvCustomerOrders;
+        private System.Windows.Forms.DataGridView dgvCustomerInfo;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Button btnDelete;
@@ -220,5 +220,6 @@ namespace SimpleDataApp
         private System.Windows.Forms.TextBox txtCustomersCity;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
+
     }
 }

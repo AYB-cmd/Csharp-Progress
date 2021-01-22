@@ -4,11 +4,12 @@ namespace MVVM.ViewModels
     using MVVM.Commands;
     using MVVM.Models;
     using System;
+    using System.ComponentModel;
     using System.Diagnostics;
     using System.Windows;
     using System.Windows.Input;
 
-    internal class CustomerViewModel
+    internal class CustomerViewModel : INotifyPropertyChanged
     {
         /// <summary>
         /// Initializes a new instance og the CustomerViewModel Class.
@@ -19,7 +20,29 @@ namespace MVVM.ViewModels
             UpdateCommand = new CustomerUpdateCommand(this);
         }
         private Customer _Customer;
-        public Customer Customer{ get { return _Customer; } }
+        public Customer Customer
+        {
+            get 
+            { 
+                return _Customer;
+            }
+            set
+            {
+                _Customer = value;
+                OnPropertyChanged(_Customer);
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged(Customer propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+        //public Customer Customer{ get { return _Customer; } }
 
         /// <summary>
         /// Gets oe sets a system.Boolean value indicating whether the customer can be update
