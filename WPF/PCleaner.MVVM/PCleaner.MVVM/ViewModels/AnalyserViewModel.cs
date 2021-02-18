@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PCleaner.MVVM.ViewModels
 {
-    class AnalyserViewModel : Screen
+    public class AnalyserViewModel : Screen
     {
         private int _CurrentProgress = 30;
         public int CurrentProgress

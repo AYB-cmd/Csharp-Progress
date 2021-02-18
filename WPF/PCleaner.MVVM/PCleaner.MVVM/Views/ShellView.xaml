@@ -18,13 +18,8 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
-
+      
         <ContentControl Grid.Row="1" Grid.Column="1" x:Name="ActiveItem"/>
-
-
-
-
 
         <!-- sideBar -->
         <Grid Grid.Row="1" Background="#FF1062B1">

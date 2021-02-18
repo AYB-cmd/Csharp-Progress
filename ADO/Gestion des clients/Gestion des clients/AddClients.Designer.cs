@@ -77,7 +77,6 @@ namespace SimpleDataApp
             this.txtAddress.Name = "txtAddress";
             this.txtAddress.Size = new System.Drawing.Size(218, 27);
             this.txtAddress.TabIndex = 5;
-            
             // 
             // txtLastName
             // 
@@ -94,6 +93,7 @@ namespace SimpleDataApp
             this.txtFirstName.Name = "txtFirstName";
             this.txtFirstName.Size = new System.Drawing.Size(218, 27);
             this.txtFirstName.TabIndex = 0;
+            this.txtFirstName.Click += new System.EventHandler(this.test);
             // 
             // label3
             // 

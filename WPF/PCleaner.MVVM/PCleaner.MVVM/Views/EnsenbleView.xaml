@@ -47,7 +47,7 @@
                 <StackPanel Orientation="Horizontal">
                
                 <Grid > 
-                        <Button Foreground="White" x:Name="BtNettoyer" Background="#FF1E8CE5" BorderThickness="0" FontSize="25" Width="190" Height="200" Margin="40 0" >
+                        <Button Foreground="White" x:Name="BtNettoyer"  Background="#FF1E8CE5" BorderThickness="0" FontSize="25" Width="190" Height="200" Margin="40 0" >
                             <StackPanel Orientation="Vertical"   >
                                 <materialDesign:PackIcon  Height="50" Width="50" HorizontalAlignment="Center" VerticalAlignment="Center" Kind="TelevisionClean"/>
                                 <Separator Height="10" Width="80" />

@@ -39,7 +39,7 @@ namespace MVVM.ViewModels
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null)
             {
-                handler(this, new PropertyChangedEventArgs(propertyName));
+                handler(this, new PropertyChangedEventArgs());
             }
         }
         //public Customer Customer{ get { return _Customer; } }

@@ -7,13 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using PCleaner.MVVM.Models;
+using PCleaner.MVVM.EventModels;
 
 namespace PCleaner.MVVM.ViewModels
 {
-    
-    class EnsenbleViewModel : Screen
+
+    public class EnsenbleViewModel : Screen
     {
-        ShellViewModel home = new ShellViewModel();
+        //ShellViewModel _home;
         Hestorique hestorique = new Hestorique();
         private string _EspaceAnettoyer = "a déterminer par analyse";
         public string EspaceAnettoyer
@@ -42,14 +43,19 @@ namespace PCleaner.MVVM.ViewModels
                 NotifyOfPropertyChange(() => DateAnalyse);
             }
         }
-
+        private readonly IEventAggregator _events;
+        //private IEventAggregator _events;
         //to defind the last analyse
-        public EnsenbleViewModel(string lastAnalyse)
+        public EnsenbleViewModel()
         {
-            DateAnalyse = lastAnalyse;
+        }
+        public EnsenbleViewModel(IEventAggregator events)
+        {
+            _events = events;
+            
         }
 
-    public void Analyzer()
+        public void Analyzer()
         {
 
             long tmp = Analyse.Tmp();
@@ -63,14 +69,15 @@ namespace PCleaner.MVVM.ViewModels
             //To make a hestoric
             Statement statement = new Statement(cooKies, tmp);
             hestorique.RightToHestoric(statement);
-            
-           
+
+
         }
         public void BtNettoyer()
         {
-           home.ActivateItem(new AnalyserViewModel()); ;
+            // _events.PublishOnUIThread(new AnEvent());
+           // _events.PublishOnUIThread("test");
         }
-     
+
 
 
     }

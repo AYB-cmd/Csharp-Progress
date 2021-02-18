@@ -124,7 +124,13 @@ namespace SimpleDataApp
             this.Close();
         }
 
+       
+        
 
+        private void test(object sender, EventArgs e)
+        {
+            txtFirstName.Clear();
+        }
     }
 }
 

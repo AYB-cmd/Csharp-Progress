@@ -13,5 +13,9 @@ namespace PCleaner.MVVM
     /// </summary>
     public partial class App : Application
     {
+           public App()
+        {
+            InitializeComponent();
+        }
     }
 }

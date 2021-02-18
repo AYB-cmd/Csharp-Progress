@@ -36,5 +36,12 @@ namespace Greating
                 MessageBox.Show("GoodBye");
             }
         }
+
+     
+
+        private void tBtn(object sender, MouseButtonEventArgs e)
+        {
+            txtName.Clear();
+        }
     }
 }
