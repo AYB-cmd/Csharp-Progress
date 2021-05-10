@@ -37,8 +37,8 @@ namespace gestionDesEtudiants
 
             services.AddAuthentication().AddGoogle(options =>
             {
-                options.ClientId = "35984922894-t2ulpio5t7t5168s6gjp47iusbcqo7c3.apps.googleusercontent.com";
-                options.ClientSecret = "_uzjI0d4Dd06PZ95UaQT-flQ";
+                options.ClientId = "35984922894-5dqnhvlroo9ss4jvv2vmd1fppobk711s.apps.googleusercontent.com";
+                options.ClientSecret = "JCYxaH6ooDyW6UZnZmZP4j35";
             });
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
@@ -46,7 +46,7 @@ namespace gestionDesEtudiants
                 facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
                 facebookOptions.AccessDeniedPath = "/AccessDeniedPathInfo";
             });
-            services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddDefaultUI()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
