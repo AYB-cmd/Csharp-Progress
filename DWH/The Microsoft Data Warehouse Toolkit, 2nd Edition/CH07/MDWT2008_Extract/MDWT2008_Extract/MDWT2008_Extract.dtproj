@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <DeploymentModel>Package</DeploymentModel>
+  <ProductVersion>15.0.2000.152</ProductVersion>
+  <SchemaVersion>9.0.1.0</SchemaVersion>
+  <State>$base64$PFNvdXJjZUNvbnRyb2xJbmZvIHhtbG5zOnhzZD0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEiIHhtbG5zOnhzaT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEtaW5zdGFuY2UiIHhtbG5zOmRkbDI9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDAzL2VuZ2luZS8yIiB4bWxuczpkZGwyXzI9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDAzL2VuZ2luZS8yLzIiIHhtbG5zOmRkbDEwMF8xMDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDA4L2VuZ2luZS8xMDAvMTAwIiB4bWxuczpkZGwyMDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDEwL2VuZ2luZS8yMDAiIHhtbG5zOmRkbDIwMF8yMDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDEwL2VuZ2luZS8yMDAvMjAwIiB4bWxuczpkZGwzMDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDExL2VuZ2luZS8zMDAiIHhtbG5zOmRkbDMwMF8zMDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDExL2VuZ2luZS8zMDAvMzAwIiB4bWxuczpkZGw0MDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDEyL2VuZ2luZS80MDAiIHhtbG5zOmRkbDQwMF80MDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDEyL2VuZ2luZS80MDAvNDAwIiB4bWxuczpkZGw1MDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDEzL2VuZ2luZS81MDAiIHhtbG5zOmRkbDUwMF81MDA9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYW5hbHlzaXNzZXJ2aWNlcy8yMDEzL2VuZ2luZS81MDAvNTAwIiB4bWxuczpkd2Q9Imh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vRGF0YVdhcmVob3VzZS9EZXNpZ25lci8xLjAiPg0KICA8RW5hYmxlZD5mYWxzZTwvRW5hYmxlZD4NCiAgPFByb2plY3ROYW1lPjwvUHJvamVjdE5hbWU+DQogIDxBdXhQYXRoPjwvQXV4UGF0aD4NCiAgPExvY2FsUGF0aD48L0xvY2FsUGF0aD4NCiAgPFByb3ZpZGVyPjwvUHJvdmlkZXI+DQo8L1NvdXJjZUNvbnRyb2xJbmZvPg==</State>
+  <Database>
+    <Name>MDWT2008_Extract.database</Name>
+    <FullPath>MDWT2008_Extract.database</FullPath>
+  </Database>
+  <DataSources>
+    <ProjectItem>
+      <Name>Adventure Works2008.ds</Name>
+      <FullPath>Adventure Works2008.ds</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>MDWT 2008 Stage.ds</Name>
+      <FullPath>MDWT 2008 Stage.ds</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>MDWT 2008 dotNet.ds</Name>
+      <FullPath>MDWT 2008 dotNet.ds</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>MDWT 2008Stage dotNet.ds</Name>
+      <FullPath>MDWT 2008Stage dotNet.ds</FullPath>
+    </ProjectItem>
+  </DataSources>
+  <DataSourceViews />
+  <DeploymentModelSpecificContent>
+    <Manifest>
+      <DTSPackages>
+        <DtsPackage FormatVersion="8">
+          <Name>Currency.dtsx</Name>
+          <FullPath>Currency.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>CurrencyInUse.dtsx</Name>
+          <FullPath>CurrencyInUse.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>CurrencyRate.dtsx</Name>
+          <FullPath>CurrencyRate.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>CustomerIndividual.dtsx</Name>
+          <FullPath>CustomerIndividual.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>Demographics.dtsx</Name>
+          <FullPath>Demographics.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>Department.dtsx</Name>
+          <FullPath>Department.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>Employee.dtsx</Name>
+          <FullPath>Employee.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>EmployeeTerritory.dtsx</Name>
+          <FullPath>EmployeeTerritory.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>MASTER EXTRACT PACKAGE.dtsx</Name>
+          <FullPath>MASTER EXTRACT PACKAGE.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>Product.dtsx</Name>
+          <FullPath>Product.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>ProductCategory.dtsx</Name>
+          <FullPath>ProductCategory.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>ProductModel.dtsx</Name>
+          <FullPath>ProductModel.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>ProductSubcategory.dtsx</Name>
+          <FullPath>ProductSubcategory.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="3">
+          <Name>SalesOrderDetail.dtsx</Name>
+          <FullPath>SalesOrderDetail.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>SalesOrderHeader.dtsx</Name>
+          <FullPath>SalesOrderHeader.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>SalesReason.dtsx</Name>
+          <FullPath>SalesReason.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>SalesTerritories.dtsx</Name>
+          <FullPath>SalesTerritories.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>SpecialOffer.dtsx</Name>
+          <FullPath>SpecialOffer.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>Store.dtsx</Name>
+          <FullPath>Store.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>StoreContacts.dtsx</Name>
+          <FullPath>StoreContacts.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+        <DtsPackage FormatVersion="8">
+          <Name>StoreDemographics.dtsx</Name>
+          <FullPath>StoreDemographics.dtsx</FullPath>
+          <References />
+        </DtsPackage>
+      </DTSPackages>
+    </Manifest>
+  </DeploymentModelSpecificContent>
+  <ControlFlowParts />
+  <Miscellaneous />
+  <Configurations>
+    <Configuration>
+      <Name>Development</Name>
+      <Options>
+        <OutputPath>bin</OutputPath>
+        <ConnectionMappings>
+          <ConfigurationSetting>
+            <Id>Adventure Works2008</Id>
+            <Name>Adventure Works2008</Name>
+            <Value xsi:type="xsd:string">Provider=SQLNCLI10.1;Data Source=LocalHost;Integrated Security=SSPI;Initial Catalog=AdventureWorks2008R2</Value>
+          </ConfigurationSetting>
+          <ConfigurationSetting>
+            <Id>MDWT 2008 Stage</Id>
+            <Name>MDWT 2008 Stage</Name>
+            <Value xsi:type="xsd:string">Provider=SQLNCLI10.1;Data Source=LocalHost;Integrated Security=SSPI;Initial Catalog=MDWT_2008R2_Stage</Value>
+          </ConfigurationSetting>
+          <ConfigurationSetting>
+            <Id>MDWT 2008 dotNet</Id>
+            <Name>MDWT 2008 dotNet</Name>
+            <Value xsi:type="xsd:string">Data Source=LocalHost;Initial Catalog=MDWT_2008R2;Integrated Security=True</Value>
+          </ConfigurationSetting>
+          <ConfigurationSetting>
+            <Id>MDWT 2008Stage dotNet</Id>
+            <Name>MDWT 2008Stage dotNet</Name>
+            <Value xsi:type="xsd:string">Data Source=LocalHost;Initial Catalog=MDWT_2008R2_Stage;Integrated Security=True</Value>
+          </ConfigurationSetting>
+        </ConnectionMappings>
+        <ConnectionProviderMappings>
+          <ConfigurationSetting>
+            <Id>MDWT 2008 dotNet</Id>
+            <Name>MDWT 2008 dotNet</Name>
+            <Value xsi:type="xsd:string">System.Data.SqlClient</Value>
+          </ConfigurationSetting>
+          <ConfigurationSetting>
+            <Id>MDWT 2008Stage dotNet</Id>
+            <Name>MDWT 2008Stage dotNet</Name>
+            <Value xsi:type="xsd:string">System.Data.SqlClient</Value>
+          </ConfigurationSetting>
+        </ConnectionProviderMappings>
+        <ConnectionSecurityMappings>
+          <ConfigurationSetting>
+            <Id>Adventure Works2008</Id>
+            <Name>Adventure Works2008</Name>
+            <Value xsi:type="xsd:int">0</Value>
+          </ConfigurationSetting>
+          <ConfigurationSetting>
+            <Id>MDWT 2008 Stage</Id>
+            <Name>MDWT 2008 Stage</Name>
+            <Value xsi:type="xsd:int">0</Value>
+          </ConfigurationSetting>
+          <ConfigurationSetting>
+            <Id>MDWT 2008 dotNet</Id>
+            <Name>MDWT 2008 dotNet</Name>
+            <Value xsi:type="xsd:int">0</Value>
+          </ConfigurationSetting>
+          <ConfigurationSetting>
+            <Id>MDWT 2008Stage dotNet</Id>
+            <Name>MDWT 2008Stage dotNet</Name>
+            <Value xsi:type="xsd:int">0</Value>
+          </ConfigurationSetting>
+        </ConnectionSecurityMappings>
+        <DatabaseStorageLocations />
+        <TargetServerVersion>SQLServer2019</TargetServerVersion>
+        <AzureMode>false</AzureMode>
+        <LinkedAzureTenantId />
+        <LinkedAzureAccountId />
+        <LinkedAzureSSISIR />
+        <LinkedAzureStorage />
+        <RemoteExecutionFolder />
+        <ParameterConfigurationValues />
+      </Options>
+    </Configuration>
+  </Configurations>
+</Project>

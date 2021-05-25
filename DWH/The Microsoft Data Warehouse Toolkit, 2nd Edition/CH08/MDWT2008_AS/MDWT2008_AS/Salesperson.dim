@@ -1,0 +1,830 @@
+﻿<Dimension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100" xmlns:ddl200="http://schemas.microsoft.com/analysisservices/2010/engine/200" xmlns:ddl200_200="http://schemas.microsoft.com/analysisservices/2010/engine/200/200" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0" dwd:design-time-name="8708164e-5ebb-46c7-9d99-425556e0306d" xmlns="http://schemas.microsoft.com/analysisservices/2003/engine">
+  <ID>Salesperson 1</ID>
+  <Name>Salesperson</Name>
+  <CreatedTimestamp>0001-01-01T00:00:00Z</CreatedTimestamp>
+  <LastSchemaUpdate>0001-01-01T00:00:00Z</LastSchemaUpdate>
+  <Annotations>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramLayout</Name>
+      <Value>
+        <dds xmlns="">
+          <diagram fontclsid="{0BE35203-8F91-11CE-9DE3-00AA004BB851}" mouseiconclsid="{0BE35204-8F91-11CE-9DE3-00AA004BB851}" defaultlayout="MSDDS.Rectilinear" defaultlineroute="MSDDS.Rectilinear" version="7" nextobject="2" scale="100" pagebreakanchorx="0" pagebreakanchory="0" pagebreaksizex="0" pagebreaksizey="0" scrollleft="-138" scrolltop="-7819" gridx="150" gridy="150" marginx="5000" marginy="5000" zoom="100" x="8255" y="20638" backcolor="15334399" defaultpersistence="2" PrintPageNumbersMode="3" PrintMarginTop="0" PrintMarginBottom="635" PrintMarginLeft="0" PrintMarginRight="0" marqueeselectionmode="0" mousepointer="0" snaptogrid="0" autotypeannotation="1" showscrollbars="0" viewpagebreaks="0" donotforceconnectorsbehindshapes="1" backpictureclsid="{00000000-0000-0000-0000-000000000000}">
+            <font>
+              <ddsxmlobjectstreamwrapper binary="01000000900144420100065461686f6d61" />
+            </font>
+            <mouseicon>
+              <ddsxmlobjectstreamwrapper binary="6c74000000000000" />
+            </mouseicon>
+          </diagram>
+          <layoutmanager>
+            <ddsxmlobj />
+          </layoutmanager>
+          <ddscontrol controlprogid="DdsShapes.DdsObjectManagedBridge.2" tooltip="Salesperson" left="20" top="0" logicalid="1" controlid="1" masterid="0" hint1="0" hint2="0" width="7938" height="5000" noresize="0" nomove="0" nodefaultattachpoints="0" autodrag="1" usedefaultiddshape="1" selectable="1" showselectionhandles="1" allownudging="1" isannotation="0" dontautolayout="0" groupcollapsed="0" tabstop="1" visible="1" snaptogrid="0">
+            <control>
+              <ddsxmlobjectstreaminitwrapper binary="00080000021f000088130000" />
+            </control>
+            <layoutobject>
+              <ddsxmlobj>
+                <property name="LogicalObject" value="dbo_Salesperson" vartype="8" />
+              </ddsxmlobj>
+            </layoutobject>
+            <shape groupshapeid="0" groupnode="0" />
+          </ddscontrol>
+        </dds>
+      </Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:ShowFriendlyNames</Name>
+      <Value>true</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:ShowRelationshipNames</Name>
+      <Value>false</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:UseDiagramDefaultLayout</Name>
+      <Value>true</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramViewPortLeft</Name>
+      <Value>-138</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramViewPortTop</Name>
+      <Value>-7819</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramBoundingLeft</Name>
+      <Value>20</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramBoundingTop</Name>
+      <Value>0</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramZoom</Name>
+      <Value>100</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:ARDiagramLayout</Name>
+      <Value>
+        <DiagramLayout ZoomPercent="100" ViewPortX="0" ViewPortY="0" xmlns="">
+          <Shapes NodeWidth="213">
+            <Shape Id="Sales Rep Key" Expanded="false">
+              <Attributes>
+                <Attribute Id="Sales Rep Key" />
+                <Attribute Id="Employee Email" />
+                <Attribute Id="Employee ID" />
+                <Attribute Id="Employee Phone" />
+                <Attribute Id="Employment End Date" />
+                <Attribute Id="Hire Date" />
+                <Attribute Id="Is Current Employee" />
+                <Attribute Id="Is Salaried" />
+                <Attribute Id="Is Sales Person" />
+                <Attribute Id="Job Title" />
+                <Attribute Id="Login ID" />
+                <Attribute Id="National ID Number" />
+                <Attribute Id="Sales Rep Birth Date" />
+                <Attribute Id="Sales Rep First Name" />
+                <Attribute Id="Sales Rep Gender" />
+                <Attribute Id="Sales Rep Last Name" />
+                <Attribute Id="Sales Rep Marital Status" />
+                <Attribute Id="Sales Rep Middle Name" />
+                <Attribute Id="Sales Rep Name" />
+              </Attributes>
+              <Position x="20" y="20" />
+            </Shape>
+            <Shape Id="Historical Sales Territory Id" Expanded="false">
+              <Attributes>
+                <Attribute Id="Historical Sales Territory Id" />
+              </Attributes>
+              <Position x="291" y="20" />
+            </Shape>
+            <Shape Id="Historical Sales Territory Country" Expanded="false">
+              <Attributes>
+                <Attribute Id="Historical Sales Territory Country" />
+              </Attributes>
+              <Position x="562" y="20" />
+            </Shape>
+            <Shape Id="Historical Sales Territory Group" Expanded="false">
+              <Attributes>
+                <Attribute Id="Historical Sales Territory Group" />
+              </Attributes>
+              <Position x="833" y="20" />
+            </Shape>
+            <Shape Id="Current Sales Territory Id" Expanded="false">
+              <Attributes>
+                <Attribute Id="Current Sales Territory Id" />
+              </Attributes>
+              <Position x="291" y="68" />
+            </Shape>
+            <Shape Id="Current Sales Territory Country" Expanded="false">
+              <Attributes>
+                <Attribute Id="Current Sales Territory Country" />
+              </Attributes>
+              <Position x="562" y="68" />
+            </Shape>
+            <Shape Id="Current Sales Territory Group" Expanded="false">
+              <Attributes>
+                <Attribute Id="Current Sales Territory Group" />
+              </Attributes>
+              <Position x="833" y="68" />
+            </Shape>
+            <Shape Id="Department ID" Expanded="false">
+              <Attributes>
+                <Attribute Id="Department ID" />
+              </Attributes>
+              <Position x="291" y="116" />
+            </Shape>
+            <Shape Id="Department Group" Expanded="false">
+              <Attributes>
+                <Attribute Id="Department Group" />
+              </Attributes>
+              <Position x="562" y="116" />
+            </Shape>
+          </Shapes>
+        </DiagramLayout>
+      </Value>
+    </Annotation>
+  </Annotations>
+  <LastProcessed>0001-01-01T00:00:00Z</LastProcessed>
+  <State>Unprocessed</State>
+  <Source xsi:type="DataSourceViewBinding" dwd:design-time-name="c4aaadc1-274c-44e0-b680-acb68e08d63f">
+    <DataSourceViewID>MDWT 2008 dsv</DataSourceViewID>
+  </Source>
+  <ErrorConfiguration dwd:design-time-name="5d971338-79d3-48df-8bb1-80e3bf19cbc6">
+    <KeyNotFound>ReportAndStop</KeyNotFound>
+    <KeyDuplicate>ReportAndStop</KeyDuplicate>
+    <NullKeyNotAllowed>ReportAndStop</NullKeyNotAllowed>
+  </ErrorConfiguration>
+  <CurrentStorageMode>Molap</CurrentStorageMode>
+  <Attributes>
+    <Attribute dwd:design-time-name="dfe0861b-4f42-4a71-a22b-b1ec6fa32d92">
+      <ID>Sales Rep Key</ID>
+      <Name>Sales Rep</Name>
+      <Usage>Key</Usage>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="15b38337-0c26-4aaa-8791-43be29df4468">
+          <DataType>Integer</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="9b49f0f9-a590-4aa0-9a4b-112308ba159d">
+            <TableID>dbo_Salesperson</TableID>
+            <ColumnID>EmployeeKey</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <NameColumn dwd:design-time-name="7e8b5528-ac60-4480-827e-f3797c4035cb">
+        <DataType>WChar</DataType>
+        <DataSize>100</DataSize>
+        <Source xsi:type="ColumnBinding" dwd:design-time-name="cb96bff9-e193-422b-8cdc-ba4f4ff7f9c2">
+          <TableID>dbo_Salesperson</TableID>
+          <ColumnID>EmployeeFullName</ColumnID>
+        </Source>
+      </NameColumn>
+      <AttributeRelationships>
+        <AttributeRelationship dwd:design-time-name="c078a574-dc29-4efe-934c-2d0d5e679a02">
+          <AttributeID>Employee ID</AttributeID>
+          <Name>Employee ID</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="b22aa28e-867d-4858-91ee-759b5a9da210">
+          <AttributeID>National ID Number</AttributeID>
+          <Name>National ID Number</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="fda0619d-e9a7-4a55-95fb-ee83bc8b4aca">
+          <AttributeID>Sales Rep Name</AttributeID>
+          <Name>Sales Rep Name</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="901541cb-569b-4d23-b932-0dc60639e5ea">
+          <AttributeID>Sales Rep First Name</AttributeID>
+          <Name>Sales Rep First Name</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="690924cd-db04-4e75-b088-b973105fe338">
+          <AttributeID>Sales Rep Last Name</AttributeID>
+          <Name>Sales Rep Last Name</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="f3bb249f-bef6-4ac0-b136-63af7add4173">
+          <AttributeID>Sales Rep Middle Name</AttributeID>
+          <Name>Sales Rep Middle Name</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="6259c301-e2a4-4b7c-bfbd-8de857dad381">
+          <AttributeID>Sales Rep Birth Date</AttributeID>
+          <Name>Sales Rep Birth Date</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="30c25620-c5e9-4bdd-b48b-b8c0aa9f2649">
+          <AttributeID>Sales Rep Marital Status</AttributeID>
+          <Name>Sales Rep Marital Status</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="398a812a-7bc1-4d16-bd1d-9297de244d46">
+          <AttributeID>Sales Rep Gender</AttributeID>
+          <Name>Sales Rep Gender</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="fea936a8-1e8a-4e11-a5d8-37e85d0375d1">
+          <AttributeID>Is Salaried</AttributeID>
+          <Name>Is Salaried</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="cbd3d5f8-a1bf-4685-948c-1d0b454c06c7">
+          <AttributeID>Is Current Employee</AttributeID>
+          <Name>Is Current Employee</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="d3df6d93-7036-4083-a791-94ab079c83f6">
+          <AttributeID>Is Sales Person</AttributeID>
+          <Name>Is Sales Person</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="1ef30cfb-dfa5-40b2-a6c0-26d639ec77f5">
+          <AttributeID>Job Title</AttributeID>
+          <Name>Job Title</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="1040d334-89fc-4235-b782-939a0299fe07">
+          <AttributeID>Department ID</AttributeID>
+          <Name>Department</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="bdd25fba-9943-4cf0-98a6-ad00a39dcc34">
+          <AttributeID>Current Sales Territory Id</AttributeID>
+          <Name>Current Sales Territory</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="5f737044-381e-4b87-99bf-252597ba1e68">
+          <AttributeID>Historical Sales Territory Id</AttributeID>
+          <Name>Historical Sales Territory</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="8aeeaf20-cc4e-4202-a725-6c96f6ed9103">
+          <AttributeID>Hire Date</AttributeID>
+          <Name>Hire Date</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="cf712862-ae6a-4ca6-8890-71f2d8e1259c">
+          <AttributeID>Employment End Date</AttributeID>
+          <Name>Employment End Date</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="0612286d-7d33-4b3c-b7df-931ffcf5b297">
+          <AttributeID>Login ID</AttributeID>
+          <Name>Login ID</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="2d9c4471-281a-48d2-8d69-e3b404f7db74">
+          <AttributeID>Employee Email</AttributeID>
+          <Name>Employee Email</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="d3b9aa3f-3dd1-4b14-b1c7-f9e8be598f0c">
+          <AttributeID>Employee Phone</AttributeID>
+          <Name>Employee Phone</Name>
+        </AttributeRelationship>
+      </AttributeRelationships>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="6bdda5cf-bc23-4671-a2ef-7c0759ace515">
+      <ID>Employee ID</ID>
+      <Name>Employee ID</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="7fb451b0-c66a-4c26-8c23-0a512641cbe0">
+          <DataType>Integer</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="1a864fdd-2571-4101-8630-d613b6a4f980">
+            <TableID>dbo_Salesperson</TableID>
+            <ColumnID>BKEmployeeID</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <AttributeHierarchyEnabled>false</AttributeHierarchyEnabled>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="aba59db1-84cf-46db-8489-6094e06c9814">
+      <ID>National ID Number</ID>
+      <Name>National ID Number</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="05af8c6a-c61d-46e3-b5ee-76245ff17995">
+          <DataType>WChar</DataType>
+          <DataSize>15</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="a5a442d6-f4f2-4716-ae49-071fba0ebd8a">
+            <TableID>dbo_Salesperson</TableID>
+            <ColumnID>NationalIDNumber</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <AttributeHierarchyEnabled>false</AttributeHierarchyEnabled>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="ab9d8f70-dfb1-4ebe-a43f-427826735a52">
+      <ID>Sales Rep Name</ID>
+      <Name>Sales Rep Name</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="f2622215-dc95-4cc2-8fb9-ea94bfc60c91">
+          <DataType>WChar</DataType>
+          <DataSize>125</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="04122f58-d70b-44ff-b09b-6bb81a53e1db">
+            <TableID>dbo_Salesperson</TableID>
+            <ColumnID>EmployeeIDName</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <AttributeHierarchyEnabled>false</AttributeHierarchyEnabled>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="001b9ecd-1a04-4c1b-9004-cfdcbf00e37a">
+      <ID>Sales Rep First Name</ID>
+      <Name>Sales Rep First Name</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="925298d4-489c-4d6b-8980-da8e9dc93adf">
+          <DataType>WChar</DataType>
+          <DataSize>50</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="f59a923d-eab9-4d8f-808f-d873153579e9">
+            <TableID>dbo_Salesperson</TableID>
+            <ColumnID>EmployeeFirstName</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <AttributeHierarchyEnabled>false</AttributeHierarchyEnabled>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="223005e2-353b-46fb-8339-1f8affd8a7fb">
+      <ID>Sales Rep Last Name</ID>
+      <Name>Sales Rep Last Name</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="b16c27b8-5fc8-4fc8-93ad-74a032b53fa1">
+          <DataType>WChar</DataType>
+          <DataSize>50</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="92f52f50-d17a-40bc-a67d-8c9130cac4a7">
+            <TableID>dbo_Salesperson</TableID>
+            <ColumnID>EmployeeLastName</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <AttributeHierarchyEnabled>false</AttributeHierarchyEnabled>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="28cd5c1c-88fd-4895-b53a-15f17b1392c9">
+      <ID>Sales Rep Middle Name</ID>
+      <Name>Sales Rep Middle Name</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="7180476c-9d0f-4c47-84f8-e410353cfa80">
+          <DataType>WChar</DataType>
+          <DataSize>50</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="e9b5ca9e-a9e8-4621-8e5c-b8451473117e">
+            <TableID>dbo_Salesperson</TableID>
+            <ColumnID>EmployeeMiddleName</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <AttributeHierarchyEnabled>false</AttributeHierarchyEnabled>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="1f899b89-613f-419d-9f9a-e4f4b99b224f">
+      <ID>Sales Rep Birth Date</ID>
+      <Name>Sales Rep Birth Date</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="4832c205-ae45-4d41-ba64-9cb4c9e0d4cd">
+          <DataType>Date</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="7afab1f2-7ffb-471c-bab4-fe6b65a164e8">
+            <TableID>dbo_Salesperson</TableID>
+            <ColumnID>BirthDate</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <AttributeHierarchyEnabled>false</AttributeHierarchyEnabled>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="5f12af04-0fa6-4cd4-8cc5-24d47ed83fe8">
+      <ID>Sales Rep Marital Status</ID>
+      <Name>Sales Rep Marital Status</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="84cee92a-5536-46e8-98b0-c3b6b609e736">
+          <DataType>WChar</DataType>
+          <DataSize>7</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="beb558ce-baa8-4a3f-aa78-e7dbfb5f3878">
+            <TableID>dbo_Salesperson</TableID>
+            <ColumnID>MaritalStatus</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="478a4241-e5ed-4335-8483-2062f0b0f226">
+      <ID>Sales Rep Gender</ID>
+      <Name>Sales Rep Gender</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="e5bdae60-7769-4a40-a953-eee9cdbb3bb1">
+          <DataType>WChar</DataType>
+          <DataSize>7</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="06b289b5-ea6e-4bc9-ac00-e33e1bf97cc0">
+            <TableID>dbo_Salesperson</TableID>
+            <ColumnID>Gender</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="b8c24d41-c634-43c1-847e-8d9e978c740d">
+      <ID>Is Salaried</ID>
+      <Name>Is Salaried</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="2d782c1a-66a6-492f-8f58-681865859543">
+          <DataType>WChar</DataType>
+          <DataSize>1</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="d45f6d7c-5e7b-464c-b528-c3ce14e81e08">
+            <TableID>dbo_Salesperson</TableID>
+            <ColumnID>IsSalaried</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="f693c570-7183-498c-86e7-d0e4f7825bbb">
+      <ID>Is Current Employee</ID>
+      <Name>Is Current Employee</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="79855a97-0943-401b-8417-668385222f49">
+          <DataType>WChar</DataType>
+          <DataSize>1</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="cc506dbc-80cb-41c9-bf6e-12e07e5491ba">
+            <TableID>dbo_Salesperson</TableID>
+            <ColumnID>IsCurrentEmployee</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="2153b340-ee68-4f92-8a38-5ff49e2759db">
+      <ID>Is Sales Person</ID>
+      <Name>Is Sales Person</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="6ef7e6af-318a-42cd-bc92-7571a431ea75">
+          <DataType>WChar</DataType>
+          <DataSize>1</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="17649cfc-0f88-4175-b121-f574bb5934e2">
+            <TableID>dbo_Salesperson</TableID>
+            <ColumnID>IsSalesPerson</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="f87c13c9-8e1d-402d-a9ad-6d334dc1b65e">
+      <ID>Job Title</ID>
+      <Name>Job Title</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="2ca85a42-a798-4fed-a8d4-90c20e3d34ef">
+          <DataType>WChar</DataType>
+          <DataSize>50</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="0ec70c2c-8490-41fb-9ebe-6277b44f1965">
+            <TableID>dbo_Salesperson</TableID>
+            <ColumnID>JobTitle</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="99a67956-6dcc-4a80-ae4d-9a3b662bae6a">
+      <ID>Department ID</ID>
+      <Name>Department</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="5f6b61e7-8366-48c4-8d62-a4031a5f4631">
+          <DataType>Integer</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="0cab8720-a4e0-494c-a607-4a777af693ea">
+            <TableID>dbo_Salesperson</TableID>
+            <ColumnID>DepartmentID</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <NameColumn dwd:design-time-name="94b63b4e-81a2-4377-b4f8-e3e1f4a16171">
+        <DataType>WChar</DataType>
+        <DataSize>50</DataSize>
+        <Source xsi:type="ColumnBinding" dwd:design-time-name="614d988b-8d20-414e-af06-478d3c4a0905">
+          <TableID>dbo_Salesperson</TableID>
+          <ColumnID>Department</ColumnID>
+        </Source>
+      </NameColumn>
+      <AttributeRelationships>
+        <AttributeRelationship dwd:design-time-name="d7afcf65-08f1-418f-b921-278918494c51">
+          <AttributeID>Department Group</AttributeID>
+          <Name>Department Group</Name>
+        </AttributeRelationship>
+      </AttributeRelationships>
+      <OrderBy>Key</OrderBy>
+      <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="ba3171b8-8a91-4eb9-8cc1-dafccddc00c5">
+      <ID>Department Group</ID>
+      <Name>Department Group</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="fd557a39-da88-45d0-88a7-873340433d82">
+          <DataType>WChar</DataType>
+          <DataSize>50</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="e93e15d8-2aa0-41dc-bf43-de633dbca371">
+            <TableID>dbo_Salesperson</TableID>
+            <ColumnID>DepartmentGroup</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="41efb753-047a-41b0-85fa-c3056e0b4d11">
+      <ID>Current Sales Territory Id</ID>
+      <Name>Current Sales Territory</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="adf60a66-43bf-469a-ba7f-83d5656224b6">
+          <DataType>Integer</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="2dc5b0be-d5cc-4c36-8311-a4a0e58a5692">
+            <TableID>dbo_Salesperson</TableID>
+            <ColumnID>BKCurrentSalesTerritoryId</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <NameColumn dwd:design-time-name="e0b1b99d-7206-4978-a1cc-06d2da295578">
+        <DataType>WChar</DataType>
+        <DataSize>50</DataSize>
+        <Source xsi:type="ColumnBinding" dwd:design-time-name="617420c8-430d-4c1d-92ed-b7f704ec13d6">
+          <TableID>dbo_Salesperson</TableID>
+          <ColumnID>CurrentSalesTerritory</ColumnID>
+        </Source>
+      </NameColumn>
+      <AttributeRelationships>
+        <AttributeRelationship dwd:design-time-name="ec6ae042-4c35-42ee-bad5-8b49c1a25a45">
+          <AttributeID>Current Sales Territory Country</AttributeID>
+          <Name>Current Sales Territory Country</Name>
+        </AttributeRelationship>
+      </AttributeRelationships>
+      <OrderBy>Key</OrderBy>
+      <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="885ee732-2369-4beb-bc4b-651bf334f70e">
+      <ID>Current Sales Territory Country</ID>
+      <Name>Current Sales Territory Country</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="79767e2f-ba9c-4304-9cee-cceb06c23539">
+          <DataType>WChar</DataType>
+          <DataSize>50</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="8f7d1619-b0b6-42d1-99e3-f9222f4a3d52">
+            <TableID>dbo_Salesperson</TableID>
+            <ColumnID>CurrentSalesTerritoryCountry</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <AttributeRelationships>
+        <AttributeRelationship dwd:design-time-name="6f9d6d9d-626e-4dfc-b695-a77678206e21">
+          <AttributeID>Current Sales Territory Group</AttributeID>
+          <Name>Current Sales Territory Group</Name>
+        </AttributeRelationship>
+      </AttributeRelationships>
+      <OrderBy>Key</OrderBy>
+      <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="acabae58-be21-4c86-bb8a-3b6908d99999">
+      <ID>Current Sales Territory Group</ID>
+      <Name>Current Sales Territory Group</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="c3905765-6cb9-40f0-aefe-d65d723ca2a2">
+          <DataType>WChar</DataType>
+          <DataSize>50</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="f91cb45c-321e-464b-acf2-eb38e2632fb2">
+            <TableID>dbo_Salesperson</TableID>
+            <ColumnID>CurrentSalesTerritoryGroup</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="65b21780-6c27-47d7-9697-488560c1c7a8">
+      <ID>Historical Sales Territory Id</ID>
+      <Name>Historical Sales Territory</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="204860f5-c726-418e-a9fa-ff267fd37ba9">
+          <DataType>Integer</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="fbd3f624-22a9-4c12-88d3-da7f1968b3bc">
+            <TableID>dbo_Salesperson</TableID>
+            <ColumnID>BKHistoricalSalesTerritoryId</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <NameColumn dwd:design-time-name="f8c0132a-837f-48ed-a38b-5a05c66e68ea">
+        <DataType>WChar</DataType>
+        <DataSize>50</DataSize>
+        <Source xsi:type="ColumnBinding" dwd:design-time-name="01161fa5-eb35-4f87-ad4b-04820e7e1b12">
+          <TableID>dbo_Salesperson</TableID>
+          <ColumnID>HistoricalSalesTerritory</ColumnID>
+        </Source>
+      </NameColumn>
+      <AttributeRelationships>
+        <AttributeRelationship dwd:design-time-name="ea6f367e-a005-404d-97b2-be9247555fc4">
+          <AttributeID>Historical Sales Territory Country</AttributeID>
+          <Name>Historical Sales Territory Country</Name>
+        </AttributeRelationship>
+      </AttributeRelationships>
+      <OrderBy>Key</OrderBy>
+      <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="c2cb1bbd-55c3-46a5-884b-18b93f7819a9">
+      <ID>Historical Sales Territory Country</ID>
+      <Name>Historical Sales Territory Country</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="3f8a6f0e-ed4b-4541-9d9c-549214132ea6">
+          <DataType>WChar</DataType>
+          <DataSize>50</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="0b54cad2-ebe9-4e1b-9a9b-ac0cb45f97d4">
+            <TableID>dbo_Salesperson</TableID>
+            <ColumnID>HistoricalSalesTerritoryCountry</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <AttributeRelationships>
+        <AttributeRelationship dwd:design-time-name="340bbe40-b890-476a-a418-1820298d3258">
+          <AttributeID>Historical Sales Territory Group</AttributeID>
+          <Name>Historical Sales Territory Group</Name>
+        </AttributeRelationship>
+      </AttributeRelationships>
+      <OrderBy>Key</OrderBy>
+      <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="4bbff5df-f09c-4367-aeeb-93b8bf4688e2">
+      <ID>Historical Sales Territory Group</ID>
+      <Name>Historical Sales Territory Group</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="9016931a-566a-48cc-a90a-0651a20398fe">
+          <DataType>WChar</DataType>
+          <DataSize>50</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="eb2d8710-509f-47fa-83a7-299b8068514c">
+            <TableID>dbo_Salesperson</TableID>
+            <ColumnID>HistoricalSalesTerritoryGroup</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="2b00f3e8-56b3-4fc4-b4df-fabe67c28b5f">
+      <ID>Hire Date</ID>
+      <Name>Hire Date</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="943fbef3-8b5a-4f9f-9b31-44b99df24d1d">
+          <DataType>Date</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="b9b8638f-2dd4-4f33-b8b0-89763a7bde03">
+            <TableID>dbo_Salesperson</TableID>
+            <ColumnID>HireDate</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <AttributeHierarchyEnabled>false</AttributeHierarchyEnabled>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="8e867100-f34e-45bc-980a-8955eefe86b6">
+      <ID>Employment End Date</ID>
+      <Name>Employment End Date</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="8b9a87a6-6bc5-45a5-a69f-8789f48e2790">
+          <DataType>Date</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="77dfb22c-664c-4f67-82ce-e05f7e17f40a">
+            <TableID>dbo_Salesperson</TableID>
+            <ColumnID>EmploymentEndDate</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <AttributeHierarchyEnabled>false</AttributeHierarchyEnabled>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="f591e2bc-5ac5-4bd4-afb8-a5c475b6c9c5">
+      <ID>Login ID</ID>
+      <Name>Login ID</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="54268634-a696-42f9-a2d4-8428cca12ea3">
+          <DataType>WChar</DataType>
+          <DataSize>50</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="fa4b5f82-2925-4820-8220-003cbf7a57a4">
+            <TableID>dbo_Salesperson</TableID>
+            <ColumnID>LoginID</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <AttributeHierarchyEnabled>false</AttributeHierarchyEnabled>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="7b4c4e89-43cf-4a76-b484-d5274d088c34">
+      <ID>Employee Email</ID>
+      <Name>Employee Email</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="7b02938f-3c22-4bca-8e50-f321e6f08b0d">
+          <DataType>WChar</DataType>
+          <DataSize>50</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="3a28190b-09db-44c2-b6a1-e730cb7ff7cc">
+            <TableID>dbo_Salesperson</TableID>
+            <ColumnID>EmployeeEmail</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <AttributeHierarchyEnabled>false</AttributeHierarchyEnabled>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="e1e231d1-7eee-4bff-96fd-904530e4280d">
+      <ID>Employee Phone</ID>
+      <Name>Employee Phone</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="1517cbae-47c1-41c0-9b08-42adedc8ee9e">
+          <DataType>WChar</DataType>
+          <DataSize>25</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="19ebaf45-6f23-44a8-a6bc-6f8e4c78916c">
+            <TableID>dbo_Salesperson</TableID>
+            <ColumnID>EmployeePhone</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <AttributeHierarchyEnabled>false</AttributeHierarchyEnabled>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+    </Attribute>
+  </Attributes>
+  <Hierarchies>
+    <Hierarchy dwd:design-time-name="25e4ce60-72de-4507-850f-7d807e250aff">
+      <ID>Hierarchy</ID>
+      <Name>Curr Sales Territories</Name>
+      <Levels>
+        <Level dwd:design-time-name="05fd7bcd-b349-411c-a96c-876719397cef">
+          <ID>Current Sales Territory Group</ID>
+          <Name>Current Sales Territory Group</Name>
+          <SourceAttributeID>Current Sales Territory Group</SourceAttributeID>
+        </Level>
+        <Level dwd:design-time-name="138ac71d-3280-4949-9303-9b5c5a081b27">
+          <ID>Current Sales Territory Country</ID>
+          <Name>Current Sales Territory Country</Name>
+          <SourceAttributeID>Current Sales Territory Country</SourceAttributeID>
+        </Level>
+        <Level dwd:design-time-name="6d2b4b08-d2cc-4edf-bcbd-3582d762882b">
+          <ID>Current Sales Territory</ID>
+          <Name>Current Sales Territory</Name>
+          <SourceAttributeID>Current Sales Territory Id</SourceAttributeID>
+        </Level>
+        <Level dwd:design-time-name="0db35426-8e3b-4b56-9f19-0a37a94aa17f">
+          <ID>Sales Rep</ID>
+          <Name>Sales Rep</Name>
+          <SourceAttributeID>Sales Rep Key</SourceAttributeID>
+        </Level>
+      </Levels>
+    </Hierarchy>
+    <Hierarchy dwd:design-time-name="af46b9e2-8f91-41a5-b235-90b1ce006f25">
+      <ID>Hierarchy 1</ID>
+      <Name>Departments</Name>
+      <Levels>
+        <Level dwd:design-time-name="1b111a5f-f36c-4318-a481-c509e808ffda">
+          <ID>Department Group</ID>
+          <Name>Department Group</Name>
+          <SourceAttributeID>Department Group</SourceAttributeID>
+        </Level>
+        <Level dwd:design-time-name="d60e3c59-097c-4a58-872c-38cc90095a9f">
+          <ID>Department</ID>
+          <Name>Department</Name>
+          <SourceAttributeID>Department ID</SourceAttributeID>
+        </Level>
+        <Level dwd:design-time-name="814cb894-53aa-48ff-90de-091fa79a6af7">
+          <ID>Sales Rep</ID>
+          <Name>Employee</Name>
+          <SourceAttributeID>Sales Rep Key</SourceAttributeID>
+        </Level>
+      </Levels>
+    </Hierarchy>
+    <Hierarchy dwd:design-time-name="6623c26f-ae5c-485c-b2e5-9277bb5a8e48">
+      <ID>Hierarchy 2</ID>
+      <Name>Hist Sales Territories</Name>
+      <Levels>
+        <Level dwd:design-time-name="f743c897-f92b-4105-8f1b-1dfd2d51946b">
+          <ID>Historical Sales Territory Group</ID>
+          <Name>Historical Sales Territory Group</Name>
+          <SourceAttributeID>Historical Sales Territory Group</SourceAttributeID>
+        </Level>
+        <Level dwd:design-time-name="186ba3ba-cc61-4e7a-a06e-bd363b8d10f3">
+          <ID>Historical Sales Territory Country</ID>
+          <Name>Historical Sales Territory Country</Name>
+          <SourceAttributeID>Historical Sales Territory Country</SourceAttributeID>
+        </Level>
+        <Level dwd:design-time-name="dbe48516-69b1-4bb5-aa50-5d57180d210d">
+          <ID>Historical Sales Territory</ID>
+          <Name>Historical Sales Territory</Name>
+          <SourceAttributeID>Historical Sales Territory Id</SourceAttributeID>
+        </Level>
+        <Level dwd:design-time-name="d40ebdbe-8af2-4bef-9b8c-cfe95db4db87">
+          <ID>Sales Rep</ID>
+          <Name>Sales Rep</Name>
+          <SourceAttributeID>Sales Rep Key</SourceAttributeID>
+        </Level>
+      </Levels>
+    </Hierarchy>
+  </Hierarchies>
+</Dimension>

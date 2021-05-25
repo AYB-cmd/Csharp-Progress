@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31025.194
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F14B399A-7131-4C87-9E4B-1186C45EF12D}") = "02 Sales - Sales Activity - Sales Rep Performance", "02 Sales - Sales Activity - Sales Rep Performance.rptproj", "{A68555D6-7964-4CD7-B8A7-C79E482BAA3A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Default = Debug|Default
+		DebugLocal|Default = DebugLocal|Default
+		Production|Default = Production|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A68555D6-7964-4CD7-B8A7-C79E482BAA3A}.Debug|Default.ActiveCfg = Debug
+		{A68555D6-7964-4CD7-B8A7-C79E482BAA3A}.Debug|Default.Build.0 = Debug
+		{A68555D6-7964-4CD7-B8A7-C79E482BAA3A}.Debug|Default.Deploy.0 = Debug
+		{A68555D6-7964-4CD7-B8A7-C79E482BAA3A}.DebugLocal|Default.ActiveCfg = DebugLocal
+		{A68555D6-7964-4CD7-B8A7-C79E482BAA3A}.DebugLocal|Default.Build.0 = DebugLocal
+		{A68555D6-7964-4CD7-B8A7-C79E482BAA3A}.DebugLocal|Default.Deploy.0 = DebugLocal
+		{A68555D6-7964-4CD7-B8A7-C79E482BAA3A}.Production|Default.ActiveCfg = Production
+		{A68555D6-7964-4CD7-B8A7-C79E482BAA3A}.Production|Default.Build.0 = Production
+		{A68555D6-7964-4CD7-B8A7-C79E482BAA3A}.Production|Default.Deploy.0 = Production
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1910DC37-731D-490E-B63A-603CE7B6A907}
+	EndGlobalSection
+EndGlobal

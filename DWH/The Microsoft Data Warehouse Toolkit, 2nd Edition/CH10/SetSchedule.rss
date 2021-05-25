@@ -1,0 +1,76 @@
+'=====================================================================
+'  File:      SetSchedule.rss
+'
+'  Summary:  Demonstrates a script that can be used with RS.exe to 
+'	     initiate a specific report schedule.
+'
+'  Input Variables:
+'      SchedName = name of schedule to be invoked
+'
+'---------------------------------------------------------------------
+'  This file is part of the Microsoft Data Warehouse Toolkit examples 
+'  from Kimball Group.
+'
+'  Copyright (C) 2008 Kimball Group.  All rights reserved.
+'
+'THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
+'KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+'IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
+'PARTICULAR PURPOSE.
+'=====================================================================*/
+
+Dim today As System.DateTime
+Dim duration As System.TimeSpan
+Dim warnings As Warning() = Nothing
+ Dim TargetSched as New Schedule
+ Dim scheduledef as New ScheduleDefinition()
+ Dim schedulelist As Schedule() = Nothing
+
+Public Sub Main()
+
+    rs.Credentials = System.Net.CredentialCache.DefaultCredentials
+Dim TargetScheduleID As String = ""
+
+
+Try
+    schedulelist = rs.ListSchedules()
+   ' Console.WriteLine("Var SchedName = " & SchedName)
+
+    If Not (schedulelist Is Nothing) Then
+        Dim sched As Schedule
+        For Each sched In  schedulelist
+           If sched.Name = SchedName Then
+ 	   	today = System.DateTime.Now
+      	   	duration = New System.TimeSpan(0,0,2,0)
+	   	Console.WriteLine(today)
+	'   	Console.WriteLine("Target Run Time: " & today.Add(duration))
+	'   	Console.WriteLine(sched.Name)
+	'   	Console.WriteLine(sched.ScheduleID)
+	'   	Console.WriteLine("Last Run time: " & sched.LastRunTime)
+	'   	Console.WriteLine("Next Run time: " & sched.NextRunTime)
+		TargetScheduleID = sched.ScheduleID
+		 
+		Dim definition2 As New ScheduleDefinition()
+		definition2.StartDateTime = today.Add(duration)
+		rs.SetScheduleProperties(SchedName,TargetScheduleID,definition2)
+
+    	'	Console.WriteLine("New Definition StartDateTime: " & definition2.StartDateTime)
+    	'	Console.WriteLine("New Definition EndDate: " & definition2.EndDate)
+	'	Console.WriteLine("New Definition NextRunTime: " & sched.NextRunTime)
+
+          End If
+
+        Next sched
+    End If
+
+        Console.WriteLine("The script seems to work...")
+	Console.WriteLine(TargetScheduleID)
+
+    Catch e As Exception
+        Console.WriteLine(e.Message)
+End Try
+
+End Sub
+
+
+

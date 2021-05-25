@@ -1,0 +1,328 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="7/2/2008 9:22:43 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="INFOD-SERVER1"
+  DTS:CreatorName="INFOD\warrent"
+  DTS:DTSID="{939FD8CC-1A29-4410-B6AD-641AF67F0702}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.152"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Report Initiator"
+  DTS:PackageType="5"
+  DTS:VersionBuild="52"
+  DTS:VersionGUID="{2443FECE-1E05-4D4E-ACBA-FB5035A170D8}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[localhost.DW_Metadata]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{403C08A5-F287-47A0-A162-A6BE3BDFB071}"
+      DTS:ObjectName="localhost.DW_Metadata">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=localhost;Initial Catalog=DW_Metadata;Provider=SQLNCLI11;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[localhost.DW_Metadata ADO.Net]"
+      DTS:CreationName="ADO.NET:System.Data.SqlClient.SqlConnection, System.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      DTS:DTSID="{D85DA73F-E682-48B8-9200-74F974B46A9E}"
+      DTS:ObjectName="localhost.DW_Metadata ADO.Net">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=localhost;Initial Catalog=DW_Metadata;Integrated Security=True;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Configurations>
+    <DTS:Configuration
+      DTS:ConfigurationString="ETL_Job_Name"
+      DTS:ConfigurationVariable="\Package.Variables[User::ETL_Job_Name].Properties[Value]"
+      DTS:CreationName=""
+      DTS:DTSID="{9AA4A4F1-DA43-4076-93FC-3441317CA9B6}"
+      DTS:ObjectName="ETL_Job_Name" />
+    <DTS:Configuration
+      DTS:ConfigurationString="ETL_Job_Type"
+      DTS:ConfigurationVariable="\Package.Variables[User::ETL_Job_Type].Properties[Value]"
+      DTS:CreationName=""
+      DTS:DTSID="{87A02BC4-F5BF-4E96-8B66-2A51B28896A0}"
+      DTS:ObjectName="ETL_Job_Type" />
+    <DTS:Configuration
+      DTS:ConfigurationString="Report_Server_URL"
+      DTS:ConfigurationVariable="\Package.Variables[User::Report_Server_URL].Properties[Value]"
+      DTS:CreationName=""
+      DTS:DTSID="{3806B87D-F59E-4F00-AF98-21149CE1BB27}"
+      DTS:ObjectName="Report_Server_URL" />
+  </DTS:Configurations>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0F12F1DA-DE63-4F20-88EB-4705566A8792}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Current_Schedule_Name">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{7DEAD9F5-7B15-492D-B75F-2F54CA6C48FF}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ETL_Job_Name">
+      <DTS:VariableValue
+        DTS:DataType="8">Orders Data Load</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{957C6579-EDED-42C4-B001-3FE1EDD6DE01}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ETL_Job_Type">
+      <DTS:VariableValue
+        DTS:DataType="8">Regular</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{FA4B654C-4677-4038-893F-08F720EC65E5}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Report_Server_URL">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{AAEBC152-744E-4645-816C-E5569ACD8D30}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="Schedule_Name_List">
+      <DTS:VariableValue
+        DTS:DataSubType="ManagedSerializable"
+        DTS:DataType="13">
+        <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+          <SOAP-ENV:Body>
+            <xsd:anyType
+              id="ref-1"></xsd:anyType>
+          </SOAP-ENV:Body>
+        </SOAP-ENV:Envelope>
+      </DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Create the List of Shared Schedules Associated with this Load"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{DAF479CF-2C02-4943-94B9-8E383A817429}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Create the List of Shared Schedules Associated with this Load"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{D85DA73F-E682-48B8-9200-74F974B46A9E}"
+          SQLTask:SqlStatementSource="SELECT RS_Schedule_Name&#xA;FROM    ETL_Job_To_RS_Schedule_Map&#xA;WHERE (ETL_Job_Type = @Job_Type) AND (ETL_Job_Name = @Job_Name)"
+          SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="0"
+            SQLTask:DtsVariableName="User::Schedule_Name_List" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@Job_Name"
+            SQLTask:DtsVariableName="User::ETL_Job_Name"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="16"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@Job_Type"
+            SQLTask:DtsVariableName="User::ETL_Job_Type"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="16"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Execute SQL Task"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{8FDF5E82-1615-4B04-BF90-F60E801964F7}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Execute SQL Task"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{403C08A5-F287-47A0-A162-A6BE3BDFB071}"
+          SQLTask:SqlStatementSource="Select ScheduleID from ReportServer.dbo.Schedule;&#xA;Select * from DW_Metadata.dbo.ETL_Job_To_RS_Schedule_Map ;&#xA;Exec ReportServer.dbo.UpdateScheduleNextRunTime 'C9092F2E-D56C-48BE-8EDE-1D7A7CCA010D', '8/13/2008 2:23 PM'" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Loop ForEach Schedule in List"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:Description="Loop ForEach Schedule in List associated with this ETL Job"
+      DTS:DTSID="{71027790-F856-4040-985E-3D9379F21167}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Loop ForEach Schedule in List">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachADOEnumerator"
+        DTS:DTSID="{2C6EABE7-9A45-425F-855A-D21C2AA123F5}"
+        DTS:ObjectName="{2C6EABE7-9A45-425F-855A-D21C2AA123F5}">
+        <DTS:ObjectData>
+          <FEEADO
+            EnumType="EnumerateRowsInFirstTable"
+            VarName="User::Schedule_Name_List" />
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Loop ForEach Schedule in List\Set each schedule to execute now"
+          DTS:CreationName="Microsoft.ExecuteProcess"
+          DTS:Description="Execute Process Task"
+          DTS:DTSID="{32B806E0-11EE-47F7-8DEC-7C1118BD6836}"
+          DTS:ExecutableType="Microsoft.ExecuteProcess"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Set each schedule to execute now"
+          DTS:TaskContact="Execute Process Task;Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="Arguments">"-i SetSchedule.rss -s " + @[User::Report_Server_URL] + " -v SchedName=\""  +  @[User::Current_Schedule_Name]  + "\""</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <ExecuteProcessData
+              Executable="rs.exe"
+              Arguments="-i SetSchedule.rss -s  -v SchedName=&quot;&quot;"
+              WorkingDirectory="C:\MDWT_Projects\Load Events Trigger" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{E63E8CFA-798E-4957-AB46-96D2390E35B7}"
+          DTS:ObjectName="{E63E8CFA-798E-4957-AB46-96D2390E35B7}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::Current_Schedule_Name" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{483291CB-9866-4109-B85E-552CE55F1DA5}"
+      DTS:From="Package\Create the List of Shared Schedules Associated with this Load"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Loop ForEach Schedule in List" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssge="clr-namespace:Microsoft.SqlServer.Graph.Extended;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+        <NodeLayout
+          Size="237.6,44"
+          Id="Package\Create the List of Shared Schedules Associated with this Load"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Execute SQL Task"
+          TopLeft="64.6320754716981,310.216981132075" />
+        <NodeLayout
+          Size="172,44"
+          Id="Package\Loop ForEach Schedule in List\Set each schedule to execute now"
+          TopLeft="14.0754716981132,27.9056603773585" />
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="196.8,88"
+          Size="196.8,132"
+          Id="Package\Loop ForEach Schedule in List"
+          TopLeft="39.2735849056604,96.3679245283019" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="124.330188679245,49.4245283018868">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="13.2830188679245,46.9433962264151"
+              Start="0,0"
+              End="13.2830188679245,39.4433962264151">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.4716981132075" />
+                  <mssgle:LineSegment
+                    End="13.2830188679245,23.4716981132075" />
+                  <mssgle:LineSegment
+                    End="13.2830188679245,39.4433962264151" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <AnnotationLayout
+          Text="Two major items here:&#xD;&#xA;- The Execute Process Task is set via an expression &#xD;&#xA;   so it can incorporate each schedule name from the &#xD;&#xA;   list.&#xD;&#xA;- The Execute Process Task invokes rs.exe with a &#xD;&#xA;   script file named SetSchedule.rss.  It looks for this&#xD;&#xA;   file in the Working Directory, so you will need&#xD;&#xA;   to put it there."
+          ParentId="Package"
+          Size="262.4,200.8"
+          Id="e1296a0c-295e-4ba8-a5e6-1b98763ec77d"
+          TopLeft="250.330188679245,136.481132075472">
+          <AnnotationLayout.FontInfo>
+            <mssge:FontInfo
+              Family="Tahoma"
+              Size="11.25"
+              Color="#FF080000">
+              <mssge:FontInfo.TextDecorations>
+                <av:TextDecorationCollection />
+              </mssge:FontInfo.TextDecorations>
+            </mssge:FontInfo>
+          </AnnotationLayout.FontInfo>
+        </AnnotationLayout>
+        <AnnotationLayout
+          Text="Alternate approach - see article"
+          ParentId="Package"
+          Size="226.4,37.6"
+          Id="7c9bc799-6886-4e78-b796-2b13e1cf8d85"
+          TopLeft="234.367924528302,323.198113207547">
+          <AnnotationLayout.FontInfo>
+            <mssge:FontInfo
+              Family="Tahoma"
+              Size="11.25"
+              Color="#FF080000">
+              <mssge:FontInfo.TextDecorations>
+                <av:TextDecorationCollection />
+              </mssge:FontInfo.TextDecorations>
+            </mssge:FontInfo>
+          </AnnotationLayout.FontInfo>
+        </AnnotationLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

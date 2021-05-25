@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>EmployeeManagement.Models</AssemblyName>
+    <RootNamespace>EmployeeManagement.Models</RootNamespace>
+  </PropertyGroup>
+
+</Project>

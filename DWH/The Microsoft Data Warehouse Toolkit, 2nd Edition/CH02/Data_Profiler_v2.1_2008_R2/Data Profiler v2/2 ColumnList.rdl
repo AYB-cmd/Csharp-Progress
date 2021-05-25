@@ -1,0 +1,1798 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Description>The Column List report is called by the Table List report -- Users should not need to access this report directly.</Description>
+  <Author>Warren Thornthwaite</Author>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="TempDB">
+      <DataSourceReference>TempDB</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>d1a0ba10-eb60-4920-8889-3be717a1435d</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="ColumnList">
+      <Query>
+        <DataSourceName>TempDB</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@SchemaNameParm">
+            <Value>=Parameters!SchemaNameParm.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@TableNameParm">
+            <Value>=Parameters!TableNameParm.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@DBName">
+            <Value>=Parameters!DBName.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@CharLength">
+            <Value>=Parameters!CharLength.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>DECLARE
+  @SchemaName SYSNAME
+  ,@TableName SYSNAME
+--, @CharLength nvarchar(20)
+
+-- SET @CharLength = '5'
+SET @SchemaName = @SchemaNameParm 
+SET @TableName = @TableNameParm
+
+-- Create a temporary table to hold interim query results
+CREATE TABLE  #Profile (
+  TableName SYSNAME,
+  ColumnName SYSNAME,
+  OrdinalPosition int,
+  DataType varchar (60),
+  MaxLength int,
+  MinValue nvarchar(1000),
+  MaxValue nvarchar(1000),
+  DistinctValues BIGINT, 
+  NullCount BIGINT,
+  AvgLengthOrValue BIGINT,
+  MaxCharLength BIGINT)
+
+-- Create a table variable to hold the list of columns in the table
+DECLARE @LoopList Table (
+  numID INTEGER IDENTITY(1,1),  -- row counter for loop
+  Column_Name SYSNAME, 
+  Data_Type VARCHAR(60), 
+  Ordinal_Position INTEGER, 
+  Max_Length_Tmp BIGINT
+  )
+
+DECLARE 
+  @ColName SYSNAME, 
+  @OrdinalPosition int,
+  @DataType varchar(60), 
+  @MaxLength int,
+  @MaxLengthTmp int,
+  @ColCount int,
+  @LoopCount int,
+  @message varchar(256),
+  @SQLStr Nvarchar(4000),
+  @CharStr varchar (20)
+
+  SET @CharStr = 'char'
+
+-- Get the column list into the table variable
+
+SET @SQLStr = ' SELECT quotename(Column_Name), Data_Type, Ordinal_Position, 
+    ISNULL(Character_Maximum_Length,0) + ISNULL(Numeric_Precision,0) + ISNULL(DATETIME_PRECISION,0) 
+    FROM ' + @DBName + '.INFORMATION_SCHEMA.COLUMNS
+    WHERE quotename(Table_Schema) = ''' + @SchemaName + ''' AND quotename(Table_Name) = ''' + @TableName + ''' ORDER BY Ordinal_Position'
+INSERT INTO @LoopList
+EXEC sp_executeSQL  @SQLStr
+
+
+SET @ColCount = @@ROWCOUNT
+SET @LoopCount = 1
+
+-- Set up a loop to step through all the columns in the target table
+
+WHILE @LoopCount &lt;= @ColCount
+BEGIN
+SELECT @ColName = Column_Name, @DataType = Data_Type, @OrdinalPosition = Ordinal_Position, @MaxLengthTmp = Max_Length_Tmp 
+FROM @LoopList 
+WHERE numID = @LoopCount
+
+   SET @MaxLength = @MaxLengthTmp
+   IF @DataType = 'bit' SET @MaxLength = 1
+   IF @DataType = 'uniqueidentifier' SET @MaxLength = 16
+   IF @DataType = 'datetime' SET @MaxLength = 8
+   IF @DataType = 'smalldatetime' SET @MaxLength = 4
+   IF @DataType = 'xml' SET @MaxLength = NULL
+  
+   SELECT @message = '----- Getting Column Name: ' + 
+      '''' + @ColName + ''', MaxLength: ' + CAST(ISNULL(@MaxLength,0) AS varchar(10))
+--   PRINT @message
+
+-- Create a SQL string to insert column info depending on the data
+-- type of the given column
+   IF @DataType in ('int', 'bigint', 'smallint', 'tinyint', 
+                 'money', 'smallmoney', 'decimal', 'numeric',
+                 'float', 'real')
+   BEGIN  -- handle most numeric data types
+--       print 'Number found: ' + @DataType
+      SET @charStr = 'datetime'
+      SET @SQLStr = 'INSERT INTO #Profile Select ''' + @TableName +
+      ''' TableName, ''' + @ColName + ''' ColName, ' + 
+      CAST (@OrdinalPosition AS varchar(12)) + ' OrdPos, ''' + @DataType + '(' +
+      CAST(ISNULL(  @MaxLength  ,0) AS varchar(12)) + ')' +
+      ''' DataType, ' + CAST(ISNULL(  @MaxLength  ,0) AS varchar(12)) + 
+      ' Lngth, MIN(' + @ColName + ') MIN, MAX(' + 
+      @ColName + ') MAX, COUNT(DISTINCT ' + @ColName + ') DistinctVals, ' + 
+      'SUM(CASE WHEN ' + @ColName + ' IS NULL THEN 1 ELSE 0 END) NullCount, ' + 
+      ' AVG(CONVERT(BIGINT, ' + @ColName + ')) AvgValue, ' +  
+      ' NULL MaxLength' +
+      ' FROM ' + @DBName + '.' + @SchemaName + '.' + @TableName
+   END
+  ELSE
+  IF @DataType in ('char', 'varchar', 'nvarchar', 'nchar')
+  BEGIN -- handle character string data types
+--      print 'String found: ' + @DataType
+      Select @SQLStr = 'INSERT INTO #Profile Select ''' + 
+      @TableName + ''' TableName, ''' + @ColName + 
+      ''' ColName, ' + CAST (@OrdinalPosition AS varchar(12)) + 
+      ' OrdPos, ''' + @DataType + '(' + 
+      CAST(ISNULL(  @MaxLength  ,0) AS varchar(12)) + ')' +
+      ''' DataType, ' + CAST(ISNULL(  @MaxLength  ,0) AS varchar(12)) + 
+      ' Lngth, LEFT(MIN(' + @ColName + '), ' + @CharLength + ')  MIN, LEFT(MAX(' + 
+      @ColName + '), ' + @CharLength + ') MAX, COUNT(DISTINCT ' + @ColName + ') DistinctVals, ' + 
+      'SUM(CASE WHEN ' + @ColName + 
+      ' IS NULL THEN 1 ELSE 0 END) NullCount, ' + 
+      ' AVG(len( ' + @ColName + '))  AvgValue, ' +
+      ' MAX(len( ' + @ColName + '))  MaxLength ' +  
+      ' FROM ' + @DBName + '.' + @SchemaName + '.' + @TableName
+   END
+   ELSE
+   IF @DataType in ('datetime', 'smalldatetime')
+   BEGIN  -- handle date data types
+--      print 'Date-type found: ' + @DataType
+      Set @charStr = 'datetime'
+      Select @SQLStr = 'INSERT INTO #Profile Select ''' + @TableName +
+      ''' TableName, ''' + @ColName + ''' ColName, ' + 
+      CAST (@OrdinalPosition AS varchar(12)) + ' OrdPos, ''' + @DataType + '(' +
+      CAST(ISNULL(  @MaxLength  ,0) AS varchar(12)) + ')' +
+      ''' DataType, ' + CAST(ISNULL(  @MaxLength  ,0) AS varchar(12)) + 
+      ' Lngth, MIN(' + @ColName + ') MIN, MAX(' + 
+      @ColName + ') MAX, COUNT(DISTINCT ' + @ColName + ') DistinctVals, ' + 
+      'SUM(CASE WHEN ' + @ColName + ' IS NULL THEN 1 ELSE 0 END) NullCount, ' + 
+      ' NULL AvgLength, ' +
+--      ' CAST(Avg(CAST( ' + @ColName + ' AS BIGINT)) AS datetime) AvgValue, ' +  
+      ' NULL MaxLength' +
+      ' FROM ' + @DBName + '.' + @SchemaName + '.' + @TableName
+   END   
+   ELSE
+   IF @DataType in ('xml', 'uniqueidentifier', 'binary', 'varbinary', 'image', 'bit', 'text', 'ntext', 'timestamp')
+   BEGIN -- Handle XML and other odd data types
+      Select @SQLStr = 'INSERT INTO #Profile Select ''' + @TableName +
+      ''' TableName, ''' + @ColName + ''' ColName, ' + 
+      CAST (@OrdinalPosition AS varchar(12)) + ' OrdPos, ''' + @DataType + 
+      ''' DataType, ' + CAST(ISNULL(  @MaxLength  ,0) AS varchar(12)) + 
+      ' Lngth, ''n/a'' MIN, ''n/a'' MAX, 0 DistinctVals, ' + 
+      'SUM(CASE WHEN ' + @ColName + ' IS NULL THEN 1 ELSE 0 END) NullCount, ' + 
+      ' NULL AvgValue, ' +
+      ' NULL MaxValue ' +
+      ' FROM ' + @DBName + '.' + @SchemaName + '.' + @TableName
+   END
+   ELSE
+   BEGIN -- Unidentified data types
+      print 'Need a section to handle this data type: ' + @DataType
+   END
+
+--   PRINT @SQLStr
+   EXEC(@SQLStr)
+-- SELECT * From #Profile
+   SET @LoopCount = @LoopCount + 1
+END -- of cursor column processing
+
+-- Write out the final results for the RS Dataset
+SELECT * from #Profile ORDER BY OrdinalPosition
+
+-- Clean house
+DROP TABLE #Profile</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="TableName">
+          <DataField>TableName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ColumnName">
+          <DataField>ColumnName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="OrdinalPosition">
+          <DataField>OrdinalPosition</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="DataType">
+          <DataField>DataType</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MaxLength">
+          <DataField>MaxLength</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="MinValue">
+          <DataField>MinValue</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MaxValue">
+          <DataField>MaxValue</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DistinctValues">
+          <DataField>DistinctValues</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+        <Field Name="NullCount">
+          <DataField>NullCount</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+        <Field Name="AvgLengthOrValue">
+          <DataField>AvgLengthOrValue</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+        <Field Name="MaxCharLength">
+          <DataField>MaxCharLength</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Textbox Name="textbox9">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Report Description: The Data Profiler Column List report lists all the columns in a given table and retrieves basic descriptive information about the contents of each column. This can take a while for large tables. This report is a sub-report called from the Table List report.</Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>textbox9</rd:DefaultName>
+            <Top>1.32292in</Top>
+            <Left>0.03125in</Left>
+            <Height>0.67708in</Height>
+            <Width>6.25in</Width>
+            <Style>
+              <Border>
+                <Style>Solid</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="textbox27">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>="Target schema and table name: " &amp; Parameters!SchemaNameParm.Value &amp; "." &amp; Parameters!TableNameParm.Value</Value>
+                    <Style>
+                      <FontSize>12pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                      <Color>DarkOliveGreen</Color>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>textbox27</rd:DefaultName>
+            <Height>0.25in</Height>
+            <Width>10.28125in</Width>
+            <ZIndex>1</ZIndex>
+            <Style>
+              <Border>
+                <Color>LemonChiffon</Color>
+                <Style>Solid</Style>
+                <Width>2pt</Width>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="textbox30">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>="Table row count: " &amp; Format(Parameters!RowCount.Value, "N0")</Value>
+                    <Style>
+                      <FontWeight>Bold</FontWeight>
+                      <Color>DarkOliveGreen</Color>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>0.25in</Top>
+            <Height>0.25in</Height>
+            <Width>2.5in</Width>
+            <ZIndex>2</ZIndex>
+            <Style>
+              <Border>
+                <Color>LemonChiffon</Color>
+                <Style>Solid</Style>
+                <Width>2pt</Width>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="textbox32">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Select a Column Name above to view additional details</Value>
+                    <Style>
+                      <FontWeight>Bold</FontWeight>
+                      <Color>DarkOliveGreen</Color>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>1.05208in</Top>
+            <Height>0.25in</Height>
+            <Width>3.85417in</Width>
+            <ZIndex>3</ZIndex>
+            <Style>
+              <Border>
+                <Color>LemonChiffon</Color>
+                <Style>Solid</Style>
+                <Width>2pt</Width>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="textbox7">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>="Server Name: " &amp; Parameters!ServerName.Value &amp; "  |  Database Name: " &amp; Parameters!DBName.Value</Value>
+                    <Style>
+                      <FontWeight>Bold</FontWeight>
+                      <Color>DarkOliveGreen</Color>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <Top>0.25in</Top>
+            <Left>2.52604in</Left>
+            <Height>0.25in</Height>
+            <Width>7.7in</Width>
+            <ZIndex>4</ZIndex>
+            <Style>
+              <Border>
+                <Color>LemonChiffon</Color>
+                <Style>Solid</Style>
+                <Width>2pt</Width>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Tablix Name="table1">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn>
+                  <Width>2.26042in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.47917in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.03125in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.625in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.38542in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.41667in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.70833in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.60417in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.53125in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.65625in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.59375in</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="textbox1">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Column Name</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>DarkOliveGreen</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <ZIndex>21</ZIndex>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <BackgroundColor>LemonChiffon</BackgroundColor>
+                            <VerticalAlign>Bottom</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="textbox6">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Col #</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>DarkOliveGreen</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>textbox6</rd:DefaultName>
+                          <ZIndex>20</ZIndex>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <BackgroundColor>LemonChiffon</BackgroundColor>
+                            <VerticalAlign>Bottom</VerticalAlign>
+                            <PaddingLeft>1pt</PaddingLeft>
+                            <PaddingRight>1pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="textbox2">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Data Type</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>DarkOliveGreen</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <ZIndex>19</ZIndex>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <BackgroundColor>LemonChiffon</BackgroundColor>
+                            <VerticalAlign>Bottom</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="textbox3">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Max Length</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>DarkOliveGreen</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>textbox3</rd:DefaultName>
+                          <ZIndex>18</ZIndex>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <BackgroundColor>LemonChiffon</BackgroundColor>
+                            <VerticalAlign>Bottom</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="textbox10">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>="Min Value" + Chr(13) + Chr(10) + "(1st " &amp; Parameters!CharLength.Value &amp; " chars)"</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>DarkOliveGreen</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>textbox10</rd:DefaultName>
+                          <ZIndex>17</ZIndex>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <BackgroundColor>LemonChiffon</BackgroundColor>
+                            <VerticalAlign>Bottom</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="textbox22">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>="Max Value" + Chr(13) + Chr(10) + "(1st " &amp; Parameters!CharLength.Value &amp; " chars)"</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>DarkOliveGreen</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>textbox22</rd:DefaultName>
+                          <ZIndex>16</ZIndex>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <BackgroundColor>LemonChiffon</BackgroundColor>
+                            <VerticalAlign>Bottom</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="textbox26">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Distinct Values</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>DarkOliveGreen</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>textbox26</rd:DefaultName>
+                          <ZIndex>15</ZIndex>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <BackgroundColor>LemonChiffon</BackgroundColor>
+                            <VerticalAlign>Bottom</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="textbox29">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Null Count</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>DarkOliveGreen</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>textbox29</rd:DefaultName>
+                          <ZIndex>14</ZIndex>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <BackgroundColor>LemonChiffon</BackgroundColor>
+                            <VerticalAlign>Bottom</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="textbox11">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Pct Null</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>DarkOliveGreen</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>textbox11</rd:DefaultName>
+                          <ZIndex>13</ZIndex>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <BackgroundColor>LemonChiffon</BackgroundColor>
+                            <VerticalAlign>Bottom</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="textbox19">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Avg Length /Value</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>DarkOliveGreen</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>textbox19</rd:DefaultName>
+                          <ZIndex>12</ZIndex>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <BackgroundColor>LemonChiffon</BackgroundColor>
+                            <VerticalAlign>Bottom</VerticalAlign>
+                            <PaddingLeft>1pt</PaddingLeft>
+                            <PaddingRight>1pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="textbox5">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Max Char Length</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>DarkOliveGreen</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>textbox5</rd:DefaultName>
+                          <ZIndex>11</ZIndex>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <BackgroundColor>LemonChiffon</BackgroundColor>
+                            <VerticalAlign>Bottom</VerticalAlign>
+                            <PaddingLeft>1pt</PaddingLeft>
+                            <PaddingRight>1pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="ColumnName">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!ColumnName.Value</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <Color>DarkBlue</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>ColumnName</rd:DefaultName>
+                          <ActionInfo>
+                            <Actions>
+                              <Action>
+                                <Drillthrough>
+                                  <ReportName>3 ColumnDetails</ReportName>
+                                  <Parameters>
+                                    <Parameter Name="DBName">
+                                      <Value>=Parameters!DBName.Value</Value>
+                                    </Parameter>
+                                    <Parameter Name="SchemaName">
+                                      <Value>=Parameters!SchemaNameParm.Value</Value>
+                                    </Parameter>
+                                    <Parameter Name="TableName">
+                                      <Value>=Parameters!TableNameParm.Value</Value>
+                                    </Parameter>
+                                    <Parameter Name="ColumnName">
+                                      <Value>=Fields!ColumnName.Value</Value>
+                                    </Parameter>
+                                    <Parameter Name="RowCount">
+                                      <Value>=Parameters!RowCount.Value</Value>
+                                    </Parameter>
+                                    <Parameter Name="DistinctCount">
+                                      <Value>=Fields!DistinctValues.Value</Value>
+                                    </Parameter>
+                                    <Parameter Name="ServerName">
+                                      <Value>=Parameters!ServerName.Value</Value>
+                                    </Parameter>
+                                  </Parameters>
+                                </Drillthrough>
+                              </Action>
+                            </Actions>
+                          </ActionInfo>
+                          <ZIndex>10</ZIndex>
+                          <Style>
+                            <Border>
+                              <Color>DarkGray</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="OrdinalPosition">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!OrdinalPosition.Value</Value>
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>OrdinalPosition</rd:DefaultName>
+                          <ZIndex>9</ZIndex>
+                          <Style>
+                            <Border>
+                              <Color>DarkGray</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="DataType">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!DataType.Value</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>DataType</rd:DefaultName>
+                          <ZIndex>8</ZIndex>
+                          <Style>
+                            <Border>
+                              <Color>DarkGray</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="MaxLength">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!MaxLength.Value</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>MaxLength</rd:DefaultName>
+                          <ZIndex>7</ZIndex>
+                          <Style>
+                            <Border>
+                              <Color>DarkGray</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="MinValue">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!MinValue.Value</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>MinValue</rd:DefaultName>
+                          <ZIndex>6</ZIndex>
+                          <Style>
+                            <Border>
+                              <Color>DarkGray</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="MaxValue">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!MaxValue.Value</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>MaxValue</rd:DefaultName>
+                          <ZIndex>5</ZIndex>
+                          <Style>
+                            <Border>
+                              <Color>DarkGray</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="DistinctValues">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!DistinctValues.Value</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <Format>N0</Format>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>DistinctValues</rd:DefaultName>
+                          <ZIndex>4</ZIndex>
+                          <Style>
+                            <Border>
+                              <Color>DarkGray</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="NullCount">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!NullCount.Value</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>NullCount</rd:DefaultName>
+                          <ZIndex>3</ZIndex>
+                          <Style>
+                            <Border>
+                              <Color>DarkGray</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="textbox20">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!NullCount.Value/Parameters!RowCount.Value</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <Format>P1</Format>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>textbox20</rd:DefaultName>
+                          <ZIndex>2</ZIndex>
+                          <Style>
+                            <Border>
+                              <Color>DarkGray</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="AvgLengthOrValue">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!AvgLengthOrValue.Value</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <Format>N0</Format>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>AvgLengthOrValue</rd:DefaultName>
+                          <ZIndex>1</ZIndex>
+                          <Style>
+                            <Border>
+                              <Color>DarkGray</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="MaxCharLength">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!MaxCharLength.Value</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>MaxCharLength</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>DarkGray</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <FixedData>true</FixedData>
+                  <KeepWithGroup>After</KeepWithGroup>
+                  <RepeatOnNewPage>true</RepeatOnNewPage>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+                <TablixMember>
+                  <Group Name="table1_Details_Group">
+                    <DataElementName>Detail</DataElementName>
+                  </Group>
+                  <TablixMembers>
+                    <TablixMember />
+                  </TablixMembers>
+                  <DataElementName>Detail_Collection</DataElementName>
+                  <DataElementOutput>Output</DataElementOutput>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <DataSetName>ColumnList</DataSetName>
+            <Top>0.53125in</Top>
+            <Height>0.5in</Height>
+            <Width>10.29168in</Width>
+            <ZIndex>5</ZIndex>
+            <Style>
+              <FontFamily>Tahoma</FontFamily>
+            </Style>
+          </Tablix>
+        </ReportItems>
+        <Height>2in</Height>
+        <Style />
+      </Body>
+      <Width>10.3in</Width>
+      <Page>
+        <PageHeader>
+          <Height>0.32083in</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Line Name="line1">
+              <Top>0.3125in</Top>
+              <Left>10.28125in</Left>
+              <Height>0in</Height>
+              <Width>-10.28125in</Width>
+              <Style>
+                <Border>
+                  <Style>Solid</Style>
+                </Border>
+              </Style>
+            </Line>
+            <Textbox Name="textbox17">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>Kimball Group - Example Data Profiler - Column List</Value>
+                      <Style>
+                        <FontFamily>Comic Sans MS</FontFamily>
+                        <FontSize>11pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                        <Color>DarkOliveGreen</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>textbox17</rd:DefaultName>
+              <Left>0.3099in</Left>
+              <Height>0.29167in</Height>
+              <Width>4.64583in</Width>
+              <ZIndex>1</ZIndex>
+              <Style>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="textbox12">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>Help</Value>
+                      <Style>
+                        <FontWeight>Bold</FontWeight>
+                        <Color>DarkOliveGreen</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>textbox12</rd:DefaultName>
+              <ActionInfo>
+                <Actions>
+                  <Action>
+                    <Drillthrough>
+                      <ReportName>4 Help Page</ReportName>
+                    </Drillthrough>
+                  </Action>
+                </Actions>
+              </ActionInfo>
+              <Top>0.03125in</Top>
+              <Left>6.44011in</Left>
+              <Height>0.21875in</Height>
+              <Width>0.70833in</Width>
+              <ZIndex>2</ZIndex>
+              <Style>
+                <Border>
+                  <Color>DarkGreen</Color>
+                  <Style>Solid</Style>
+                  <Width>3pt</Width>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Image Name="image1">
+              <Source>External</Source>
+              <Value>SmallKGLeaf2.jpg</Value>
+              <Left>0.00261in</Left>
+              <Height>0.30209in</Height>
+              <Width>0.3in</Width>
+              <ZIndex>3</ZIndex>
+              <Style />
+            </Image>
+          </ReportItems>
+          <Style />
+        </PageHeader>
+        <PageFooter>
+          <Height>0.51042in</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Textbox Name="textbox8">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>="Report Name: " &amp; Globals!ReportName</Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>textbox8</rd:DefaultName>
+              <Top>0.10417in</Top>
+              <Left>0.02083in</Left>
+              <Height>0.19792in</Height>
+              <Width>3.375in</Width>
+              <Style>
+                <Border>
+                  <Style>Solid</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="textbox4">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Globals!PageNumber</Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>textbox4</rd:DefaultName>
+              <Top>0.29167in</Top>
+              <Left>9.86458in</Left>
+              <Height>0.1875in</Height>
+              <Width>0.375in</Width>
+              <ZIndex>1</ZIndex>
+              <Style>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="textbox23">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>= "Last run date: " &amp; Format(Globals!ExecutionTime, "g")</Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>0.29167in</Top>
+              <Left>7.1875in</Left>
+              <Height>0.1875in</Height>
+              <Width>2.5625in</Width>
+              <ZIndex>2</ZIndex>
+              <Style>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="textbox18">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>="Report Folder: " &amp; Globals!ReportFolder</Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <Top>0.3125in</Top>
+              <Left>0.02083in</Left>
+              <Height>0.1875in</Height>
+              <Width>3.375in</Width>
+              <ZIndex>3</ZIndex>
+              <Style>
+                <Border>
+                  <Style>Solid</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Line Name="line2">
+              <Top>0.04688in</Top>
+              <Left>10.27083in</Left>
+              <Height>0in</Height>
+              <Width>-10.26042in</Width>
+              <ZIndex>4</ZIndex>
+              <Style>
+                <Border>
+                  <Style>Solid</Style>
+                </Border>
+              </Style>
+            </Line>
+            <Textbox Name="textbox13">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>(c) 2011 Kimball Group all rights reserved</Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>textbox13</rd:DefaultName>
+              <ActionInfo>
+                <Actions>
+                  <Action>
+                    <Hyperlink>http://www.kimballuniversity.com/html/booksMDWT.html</Hyperlink>
+                  </Action>
+                </Actions>
+              </ActionInfo>
+              <Top>0.08333in</Top>
+              <Left>8.11719in</Left>
+              <Height>0.19792in</Height>
+              <Width>2.18281in</Width>
+              <ZIndex>5</ZIndex>
+              <Style>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+          </ReportItems>
+          <Style />
+        </PageFooter>
+        <PageHeight>8.5in</PageHeight>
+        <PageWidth>11in</PageWidth>
+        <InteractiveHeight>11in</InteractiveHeight>
+        <InteractiveWidth>8.5in</InteractiveWidth>
+        <LeftMargin>0.4in</LeftMargin>
+        <RightMargin>0.3in</RightMargin>
+        <TopMargin>0.5in</TopMargin>
+        <BottomMargin>0.5in</BottomMargin>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParameters>
+    <ReportParameter Name="DBName">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>[master]</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>DBName</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="SchemaNameParm">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>[dbo]</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>SchemaNameParm</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="TableNameParm">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>[spt_values]</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>TableNameParm</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="RowCount">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>100</Value>
+        </Values>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>RowCount</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="ServerName">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>localhost</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>ServerName</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="CharLength">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>100</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>CharLength</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+  </ReportParameters>
+  <ReportParametersLayout>
+    <GridLayoutDefinition>
+      <NumberOfColumns>6</NumberOfColumns>
+      <NumberOfRows>1</NumberOfRows>
+      <CellDefinitions>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>DBName</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>SchemaNameParm</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>2</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>TableNameParm</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>3</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>RowCount</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>4</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>ServerName</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>5</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>CharLength</ParameterName>
+        </CellDefinition>
+      </CellDefinitions>
+    </GridLayoutDefinition>
+  </ReportParametersLayout>
+  <EmbeddedImages>
+    <EmbeddedImage Name="awdw_logo_image_2">
+      <MIMEType>image/jpeg</MIMEType>
+      <ImageData>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</ImageData>
+    </EmbeddedImage>
+  </EmbeddedImages>
+  <Language>en-US</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>d0fa4fdf-79d1-47f7-baad-2e8101d4a64c</rd:ReportID>
+</Report>

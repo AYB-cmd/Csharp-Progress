@@ -1,0 +1,1416 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Description>More complete version of the example Sales Rep Performance report.</Description>
+  <Author>Report Template</Author>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="AWAS">
+      <DataSourceReference>AWAnalysisSvcs</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>124483d3-a50f-41c4-a98e-e6f9570aebc7</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="SalesData">
+      <Query>
+        <DataSourceName>AWAS</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="DateCalendarYear">
+            <Value>=Parameters!DateCalendarYear.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>WITH MEMBER [Measures].[Current Year Sales] AS [Measures].[Reseller Sales Amount] MEMBER [Measures].[Prior Year Sales] AS SUM({ParallelPeriod([Date].[Calendar Year].LEVEL,1)},
+      [Measures].[Current Year Sales])
+ MEMBER [Measures].[Current Year Rank] AS IIF (ISEMPTY( [Measures].[Current Year Sales] ), NULL,
+    RANK (
+         [Employee].[Employee Department].CurrentMember,
+         ORDER (
+          [Employee].[Employee Department].[Employee].Members
+               , ([Measures].[Current Year Sales])
+               , BDESC 
+               )
+         )
+    )
+ MEMBER [Measures].[Prior Year Rank] AS IIF (ISEMPTY( [Measures].[Prior Year Sales] ), NULL,
+    RANK (
+         [Employee].[Employee Department].CurrentMember,
+         ORDER (
+          [Employee].[Employee Department].[Employee].Members
+               , ([Measures].[Prior Year Sales])
+               , BDESC 
+               )
+         )
+    )
+ SELECT NON EMPTY { [Measures].[Prior Year Rank], [Measures].[Current Year Rank], [Measures].[Prior Year Sales], [Measures].[Current Year Sales] } ON COLUMNS, NON EMPTY { ([Employee].[Employee Department].[Employee].ALLMEMBERS ) } DIMENSION PROPERTIES MEMBER_CAPTION, MEMBER_UNIQUE_NAME ON ROWS FROM ( SELECT ( STRTOSET(@DateCalendarYear, CONSTRAINED) ) ON COLUMNS FROM [Adventure Works]) WHERE ( IIF( STRTOSET(@DateCalendarYear, CONSTRAINED).Count = 1, STRTOSET(@DateCalendarYear, CONSTRAINED), [Date].[Calendar Year].currentmember ) ) CELL PROPERTIES VALUE, BACK_COLOR, FORE_COLOR, FORMATTED_VALUE, FORMAT_STRING, FONT_NAME, FONT_SIZE, FONT_FLAGS</CommandText>
+        <rd:DesignerState>
+          <QueryDefinition xmlns="http://schemas.microsoft.com/AnalysisServices/QueryDefinition">
+            <CommandType>MDX</CommandType>
+            <QuerySpecification xsi:type="MDXQuerySpecification" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+              <Select>
+                <Items>
+                  <Item>
+                    <ID xsi:type="Level">
+                      <DimensionName>Employee</DimensionName>
+                      <HierarchyName>Employee Department</HierarchyName>
+                      <HierarchyUniqueName>[Employee].[Employee Department]</HierarchyUniqueName>
+                      <LevelName>Employee</LevelName>
+                      <UniqueName>[Employee].[Employee Department].[Employee]</UniqueName>
+                    </ID>
+                    <ItemCaption>Employee</ItemCaption>
+                    <UniqueName>true</UniqueName>
+                  </Item>
+                  <Item>
+                    <ID xsi:type="Measure">
+                      <MeasureName>Current Year Sales</MeasureName>
+                      <UniqueName>[Measures].[Current Year Sales]</UniqueName>
+                    </ID>
+                    <ItemCaption>Current Year Sales</ItemCaption>
+                    <BackColor>true</BackColor>
+                    <ForeColor>true</ForeColor>
+                    <FontFamily>true</FontFamily>
+                    <FontSize>true</FontSize>
+                    <FontWeight>true</FontWeight>
+                    <FontStyle>true</FontStyle>
+                    <FontDecoration>true</FontDecoration>
+                    <FormattedValue>true</FormattedValue>
+                    <FormatString>true</FormatString>
+                  </Item>
+                  <Item>
+                    <ID xsi:type="Measure">
+                      <MeasureName>Prior Year Sales</MeasureName>
+                      <UniqueName>[Measures].[Prior Year Sales]</UniqueName>
+                    </ID>
+                    <ItemCaption>Prior Year Sales</ItemCaption>
+                    <BackColor>true</BackColor>
+                    <ForeColor>true</ForeColor>
+                    <FontFamily>true</FontFamily>
+                    <FontSize>true</FontSize>
+                    <FontWeight>true</FontWeight>
+                    <FontStyle>true</FontStyle>
+                    <FontDecoration>true</FontDecoration>
+                    <FormattedValue>true</FormattedValue>
+                    <FormatString>true</FormatString>
+                  </Item>
+                  <Item>
+                    <ID xsi:type="Measure">
+                      <MeasureName>Current Year Rank</MeasureName>
+                      <UniqueName>[Measures].[Current Year Rank]</UniqueName>
+                    </ID>
+                    <ItemCaption>Current Year Rank</ItemCaption>
+                    <BackColor>true</BackColor>
+                    <ForeColor>true</ForeColor>
+                    <FontFamily>true</FontFamily>
+                    <FontSize>true</FontSize>
+                    <FontWeight>true</FontWeight>
+                    <FontStyle>true</FontStyle>
+                    <FontDecoration>true</FontDecoration>
+                    <FormattedValue>true</FormattedValue>
+                    <FormatString>true</FormatString>
+                  </Item>
+                  <Item>
+                    <ID xsi:type="Measure">
+                      <MeasureName>Prior Year Rank</MeasureName>
+                      <UniqueName>[Measures].[Prior Year Rank]</UniqueName>
+                    </ID>
+                    <ItemCaption>Prior Year Rank</ItemCaption>
+                    <BackColor>true</BackColor>
+                    <ForeColor>true</ForeColor>
+                    <FontFamily>true</FontFamily>
+                    <FontSize>true</FontSize>
+                    <FontWeight>true</FontWeight>
+                    <FontStyle>true</FontStyle>
+                    <FontDecoration>true</FontDecoration>
+                    <FormattedValue>true</FormattedValue>
+                    <FormatString>true</FormatString>
+                  </Item>
+                </Items>
+              </Select>
+              <From>Adventure Works</From>
+              <Filter>
+                <FilterItems>
+                  <FilterItem>
+                    <HierarchyUniqueName>[Date].[Calendar Year]</HierarchyUniqueName>
+                    <Condition xsi:type="EqualTo">
+                      <Members>
+                        <Member>
+                          <MemberUniqueName>[Date].[Calendar Year].&amp;[2008]</MemberUniqueName>
+                        </Member>
+                      </Members>
+                      <Parametrized>true</Parametrized>
+                    </Condition>
+                  </FilterItem>
+                </FilterItems>
+              </Filter>
+              <Calculations>
+                <Calculation>
+                  <ID>[Current Year Sales]</ID>
+                  <Name>Current Year Sales</Name>
+                  <ParentUniqueName>[Measures]</ParentUniqueName>
+                  <Expression>[Measures].[Reseller Sales Amount]</Expression>
+                </Calculation>
+                <Calculation>
+                  <ID>[Prior Year Sales]</ID>
+                  <Name>Prior Year Sales</Name>
+                  <ParentUniqueName>[Measures]</ParentUniqueName>
+                  <Expression>SUM({ParallelPeriod([Date].[Calendar Year].LEVEL,1)},
+      [Measures].[Current Year Sales])
+</Expression>
+                </Calculation>
+                <Calculation>
+                  <ID>[Current Year Rank]</ID>
+                  <Name>Current Year Rank</Name>
+                  <ParentUniqueName>[Measures]</ParentUniqueName>
+                  <Expression>IIF (ISEMPTY( [Measures].[Current Year Sales] ), NULL,
+    RANK (
+         [Employee].[Employee Department].CurrentMember,
+         ORDER (
+          [Employee].[Employee Department].[Employee].Members
+               , ([Measures].[Current Year Sales])
+               , BDESC 
+               )
+         )
+    )
+</Expression>
+                </Calculation>
+                <Calculation>
+                  <ID>[Prior Year Rank]</ID>
+                  <Name>Prior Year Rank</Name>
+                  <ParentUniqueName>[Measures]</ParentUniqueName>
+                  <Expression>IIF (ISEMPTY( [Measures].[Prior Year Sales] ), NULL,
+    RANK (
+         [Employee].[Employee Department].CurrentMember,
+         ORDER (
+          [Employee].[Employee Department].[Employee].Members
+               , ([Measures].[Prior Year Sales])
+               , BDESC 
+               )
+         )
+    )
+</Expression>
+                </Calculation>
+              </Calculations>
+              <Aggregates />
+              <QueryProperties />
+            </QuerySpecification>
+            <Query>
+              <Statement>WITH MEMBER [Measures].[Current Year Sales] AS [Measures].[Reseller Sales Amount] MEMBER [Measures].[Prior Year Sales] AS SUM({ParallelPeriod([Date].[Calendar Year].LEVEL,1)},
+      [Measures].[Current Year Sales])
+ MEMBER [Measures].[Current Year Rank] AS IIF (ISEMPTY( [Measures].[Current Year Sales] ), NULL,
+    RANK (
+         [Employee].[Employee Department].CurrentMember,
+         ORDER (
+          [Employee].[Employee Department].[Employee].Members
+               , ([Measures].[Current Year Sales])
+               , BDESC 
+               )
+         )
+    )
+ MEMBER [Measures].[Prior Year Rank] AS IIF (ISEMPTY( [Measures].[Prior Year Sales] ), NULL,
+    RANK (
+         [Employee].[Employee Department].CurrentMember,
+         ORDER (
+          [Employee].[Employee Department].[Employee].Members
+               , ([Measures].[Prior Year Sales])
+               , BDESC 
+               )
+         )
+    )
+ SELECT NON EMPTY { [Measures].[Prior Year Rank], [Measures].[Current Year Rank], [Measures].[Prior Year Sales], [Measures].[Current Year Sales] } ON COLUMNS, NON EMPTY { ([Employee].[Employee Department].[Employee].ALLMEMBERS ) } DIMENSION PROPERTIES MEMBER_CAPTION, MEMBER_UNIQUE_NAME ON ROWS FROM ( SELECT ( STRTOSET(@DateCalendarYear, CONSTRAINED) ) ON COLUMNS FROM [Adventure Works]) WHERE ( IIF( STRTOSET(@DateCalendarYear, CONSTRAINED).Count = 1, STRTOSET(@DateCalendarYear, CONSTRAINED), [Date].[Calendar Year].currentmember ) ) CELL PROPERTIES VALUE, BACK_COLOR, FORE_COLOR, FORMATTED_VALUE, FORMAT_STRING, FONT_NAME, FONT_SIZE, FONT_FLAGS</Statement>
+              <ParameterDefinitions>
+                <ParameterDefinition>
+                  <Name>DateCalendarYear</Name>
+                  <DefaultValues>
+                    <DefaultValue>[Date].[Calendar Year].&amp;[2008]</DefaultValue>
+                  </DefaultValues>
+                  <Caption>Date.Calendar Year</Caption>
+                  <HierarchyUniqueName>[Date].[Calendar Year]</HierarchyUniqueName>
+                  <ParameterValuesQuery>
+                    <Statement>WITH MEMBER [Measures].[ParameterCaption] AS [Date].[Calendar Year].CURRENTMEMBER.MEMBER_CAPTION MEMBER [Measures].[ParameterValue] AS [Date].[Calendar Year].CURRENTMEMBER.UNIQUENAME MEMBER [Measures].[ParameterLevel] AS [Date].[Calendar Year].CURRENTMEMBER.LEVEL.ORDINAL SELECT {[Measures].[ParameterCaption], [Measures].[ParameterValue], [Measures].[ParameterLevel]} ON COLUMNS , [Date].[Calendar Year].ALLMEMBERS ON ROWS FROM [Adventure Works]</Statement>
+                    <ParameterizedStatement>
+                      <ReferencedParameters />
+                    </ParameterizedStatement>
+                  </ParameterValuesQuery>
+                  <MultipleValues>true</MultipleValues>
+                </ParameterDefinition>
+              </ParameterDefinitions>
+            </Query>
+          </QueryDefinition>
+        </rd:DesignerState>
+      </Query>
+      <Fields>
+        <Field Name="Employee">
+          <DataField>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;Field xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="Level" UniqueName="[Employee].[Employee Department].[Employee]" /&gt;</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Current_Year_Sales">
+          <DataField>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;Field xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="Measure" UniqueName="[Measures].[Current Year Sales]" /&gt;</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Prior_Year_Sales">
+          <DataField>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;Field xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="Measure" UniqueName="[Measures].[Prior Year Sales]" /&gt;</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Current_Year_Rank">
+          <DataField>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;Field xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="Measure" UniqueName="[Measures].[Current Year Rank]" /&gt;</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Prior_Year_Rank">
+          <DataField>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;Field xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="Measure" UniqueName="[Measures].[Prior Year Rank]" /&gt;</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="DateCalendarYear">
+      <Query>
+        <DataSourceName>AWAS</DataSourceName>
+        <CommandText>WITH MEMBER [Measures].[ParameterCaption] AS [Date].[Calendar Year].CURRENTMEMBER.MEMBER_CAPTION MEMBER [Measures].[ParameterValue] AS [Date].[Calendar Year].CURRENTMEMBER.UNIQUENAME MEMBER [Measures].[ParameterLevel] AS [Date].[Calendar Year].CURRENTMEMBER.LEVEL.ORDINAL SELECT {[Measures].[ParameterCaption], [Measures].[ParameterValue], [Measures].[ParameterLevel]} ON COLUMNS , [Date].[Calendar Year].ALLMEMBERS ON ROWS FROM [Adventure Works]</CommandText>
+        <rd:DesignerState>
+          <QueryDefinition xmlns="http://schemas.microsoft.com/AnalysisServices/QueryDefinition">
+            <CommandType>MDX</CommandType>
+            <Type>Query</Type>
+            <QuerySpecification xsi:type="MDXQuerySpecification" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+              <Select>
+                <Items>
+                  <Item>
+                    <ID xsi:type="Measure">
+                      <MeasureName>ParameterCaption</MeasureName>
+                      <UniqueName>[Measures].[ParameterCaption]</UniqueName>
+                    </ID>
+                    <ItemCaption>ParameterCaption</ItemCaption>
+                    <FormattedValue>true</FormattedValue>
+                  </Item>
+                  <Item>
+                    <ID xsi:type="Measure">
+                      <MeasureName>ParameterValue</MeasureName>
+                      <UniqueName>[Measures].[ParameterValue]</UniqueName>
+                    </ID>
+                    <ItemCaption>ParameterValue</ItemCaption>
+                    <FormattedValue>true</FormattedValue>
+                  </Item>
+                  <Item>
+                    <ID xsi:type="Measure">
+                      <MeasureName>ParameterLevel</MeasureName>
+                      <UniqueName>[Measures].[ParameterLevel]</UniqueName>
+                    </ID>
+                    <ItemCaption>ParameterLevel</ItemCaption>
+                    <FormattedValue>true</FormattedValue>
+                  </Item>
+                </Items>
+              </Select>
+              <From>Adventure Works</From>
+              <Filter>
+                <FilterItems />
+              </Filter>
+              <Calculations />
+              <Aggregates />
+              <QueryProperties />
+            </QuerySpecification>
+            <Query>
+              <Statement>WITH MEMBER [Measures].[ParameterCaption] AS [Date].[Calendar Year].CURRENTMEMBER.MEMBER_CAPTION MEMBER [Measures].[ParameterValue] AS [Date].[Calendar Year].CURRENTMEMBER.UNIQUENAME MEMBER [Measures].[ParameterLevel] AS [Date].[Calendar Year].CURRENTMEMBER.LEVEL.ORDINAL SELECT {[Measures].[ParameterCaption], [Measures].[ParameterValue], [Measures].[ParameterLevel]} ON COLUMNS , [Date].[Calendar Year].ALLMEMBERS ON ROWS FROM [Adventure Works]</Statement>
+              <ParameterDefinitions />
+            </Query>
+          </QueryDefinition>
+        </rd:DesignerState>
+        <rd:AutoGenerated>true</rd:AutoGenerated>
+        <rd:Hidden>true</rd:Hidden>
+      </Query>
+      <Fields>
+        <Field Name="ParameterCaption">
+          <DataField>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;Field xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="Measure" UniqueName="[Measures].[ParameterCaption]" /&gt;</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="ParameterValue">
+          <DataField>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;Field xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="Measure" UniqueName="[Measures].[ParameterValue]" /&gt;</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="ParameterLevel">
+          <DataField>&lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;Field xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="Measure" UniqueName="[Measures].[ParameterLevel]" /&gt;</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="ParameterCaptionIndented">
+          <Value>=Space(3*Fields!ParameterLevel.Value) + Fields!ParameterCaption.Value</Value>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Textbox Name="textbox9">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Report Description: </Value>
+                    <Style />
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>textbox9</rd:DefaultName>
+            <Top>2.13542in</Top>
+            <Left>0.0632in</Left>
+            <Height>0.5in</Height>
+            <Width>6.46458in</Width>
+            <Style>
+              <Border>
+                <Style>Solid</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Tablix Name="table2">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn>
+                  <Width>2.16667in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.9375in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.875in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.84375in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.83333in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.8125in</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="textbox10">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Employee</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <Color>DarkOliveGreen</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>textbox6</rd:DefaultName>
+                          <ZIndex>8</ZIndex>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Style>Solid</Style>
+                            </LeftBorder>
+                            <BackgroundColor>LemonChiffon</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="textbox11">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Left(Right(Parameters!DateCalendarYear.Value, 5), 4) &amp; " Sales"</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <Color>DarkOliveGreen</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>textbox7</rd:DefaultName>
+                          <ZIndex>7</ZIndex>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <BackgroundColor>LemonChiffon</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="CurRank">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Left(Right(Parameters!DateCalendarYear.Value, 5), 4) &amp; " Rank"</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <Color>DarkOliveGreen</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <BackgroundColor>LemonChiffon</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox7">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Str(Int(Left(Right(Parameters!DateCalendarYear.Value, 5), 4))-1) &amp; " Sales"</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <Color>DarkOliveGreen</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox6</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <BackgroundColor>LemonChiffon</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox9">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Str(Int(Left(Right(Parameters!DateCalendarYear.Value, 5), 4))-1) &amp; " Rank"</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <Color>DarkOliveGreen</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox9</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <BackgroundColor>LemonChiffon</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox12">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Rank Chg</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <FontSize>11pt</FontSize>
+                                    <Color>DarkOliveGreen</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox12</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>Black</Color>
+                              <Style>Solid</Style>
+                              <Width>1pt</Width>
+                            </BottomBorder>
+                            <BackgroundColor>LemonChiffon</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="textbox12">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Employee.Value</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>textbox11</rd:DefaultName>
+                          <ZIndex>2</ZIndex>
+                          <Style>
+                            <BackgroundColor>=IIf(Fields!Prior_Year_Rank.Value-Fields!Current_Year_Rank.Value &lt; -2, "LightCoral", IIf(Fields!Prior_Year_Rank.Value-Fields!Current_Year_Rank.Value &gt;2,"LightGreen", "White"))</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="CurrentSlsVal">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Current_Year_Sales.Value</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <Format>N0</Format>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <ZIndex>1</ZIndex>
+                          <Style>
+                            <Border />
+                            <BackgroundColor>=IIf(Fields!Prior_Year_Rank.Value-Fields!Current_Year_Rank.Value &lt; -2, "LightCoral", IIf(Fields!Prior_Year_Rank.Value-Fields!Current_Year_Rank.Value &gt;2,"LightGreen", "White"))</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox10">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Current_Year_Rank.Value</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <Format>N0</Format>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox4</rd:DefaultName>
+                          <Style>
+                            <Border />
+                            <BackgroundColor>=IIf(Fields!Prior_Year_Rank.Value-Fields!Current_Year_Rank.Value &lt; -2, "LightCoral", IIf(Fields!Prior_Year_Rank.Value-Fields!Current_Year_Rank.Value &gt;2,"LightGreen", "White"))</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="PriorSlsVal">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Prior_Year_Sales.Value</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <Format>N0</Format>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border />
+                            <BackgroundColor>=IIf(Fields!Prior_Year_Rank.Value-Fields!Current_Year_Rank.Value &lt; -2, "LightCoral", IIf(Fields!Prior_Year_Rank.Value-Fields!Current_Year_Rank.Value &gt;2,"LightGreen", "White"))</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox13">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Prior_Year_Rank.Value</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <Format>N0</Format>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox10</rd:DefaultName>
+                          <Style>
+                            <Border />
+                            <BackgroundColor>=IIf(Fields!Prior_Year_Rank.Value-Fields!Current_Year_Rank.Value &lt; -2, "LightCoral", IIf(Fields!Prior_Year_Rank.Value-Fields!Current_Year_Rank.Value &gt;2,"LightGreen", "White"))</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="RankVal">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Prior_Year_Rank.Value-Fields!Current_Year_Rank.Value</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <Style>
+                            <Border />
+                            <BackgroundColor>=IIf(Fields!Prior_Year_Rank.Value-Fields!Current_Year_Rank.Value &lt; -2, "LightCoral", IIf(Fields!Prior_Year_Rank.Value-Fields!Current_Year_Rank.Value &gt;2,"LightGreen", "White"))</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="textbox16">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>textbox14</rd:DefaultName>
+                          <ZIndex>5</ZIndex>
+                          <Style>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="textbox19">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Sum(Fields!Current_Year_Sales.Value)</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <Format>N0</Format>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>textbox15</rd:DefaultName>
+                          <ZIndex>4</ZIndex>
+                          <Style>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox3">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <Format>N0</Format>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox3</rd:DefaultName>
+                          <Style>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox16">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Sum(Fields!Prior_Year_Sales.Value)</Value>
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <Format>N0</Format>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox8</rd:DefaultName>
+                          <Style>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox5">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                    <Format>N0</Format>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox5</rd:DefaultName>
+                          <Style>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox21">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Tahoma</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox14</rd:DefaultName>
+                          <Style>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <KeepWithGroup>After</KeepWithGroup>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+                <TablixMember>
+                  <Group Name="table1_Details_Group2">
+                    <DataElementName>Detail</DataElementName>
+                  </Group>
+                  <SortExpressions>
+                    <SortExpression>
+                      <Value>=Fields!Current_Year_Rank.Value</Value>
+                    </SortExpression>
+                  </SortExpressions>
+                  <TablixMembers>
+                    <TablixMember />
+                  </TablixMembers>
+                  <DataElementName>Detail_Collection</DataElementName>
+                  <DataElementOutput>Output</DataElementOutput>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+                <TablixMember>
+                  <KeepWithGroup>Before</KeepWithGroup>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <DataSetName>SalesData</DataSetName>
+            <Top>0.11979in</Top>
+            <Left>0.075in</Left>
+            <Height>0.75in</Height>
+            <Width>6.46875in</Width>
+            <ZIndex>1</ZIndex>
+            <Style>
+              <FontFamily>Tahoma</FontFamily>
+            </Style>
+          </Tablix>
+        </ReportItems>
+        <Height>2.67708in</Height>
+        <Style>
+          <Border>
+            <Style>Solid</Style>
+          </Border>
+        </Style>
+      </Body>
+      <Width>8.52778in</Width>
+      <Page>
+        <PageHeader>
+          <Height>0.27083in</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Image Name="AWDW_Logo">
+              <Source>Embedded</Source>
+              <Value>awdw_logo_image_2</Value>
+              <Sizing>FitProportional</Sizing>
+              <Top>0.00694in</Top>
+              <Left>5.62917in</Left>
+              <Height>0.21528in</Height>
+              <Width>0.375in</Width>
+              <Style />
+            </Image>
+            <Textbox Name="textbox17">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>Adventure Works BIS</Value>
+                      <Style>
+                        <FontFamily>Comic Sans MS</FontFamily>
+                        <FontSize>11pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                        <Color>DarkOliveGreen</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>textbox17</rd:DefaultName>
+              <Top>0.01388in</Top>
+              <Left>3.8375in</Left>
+              <Height>0.20139in</Height>
+              <Width>1.7882in</Width>
+              <ZIndex>1</ZIndex>
+              <Style>
+                <Border />
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox1">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>Sales Rep Performance Report</Value>
+                      <Style>
+                        <FontFamily>Comic Sans MS</FontFamily>
+                        <FontSize>12pt</FontSize>
+                        <Color>DarkOliveGreen</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1</rd:DefaultName>
+              <Left>0.075in</Left>
+              <Height>0.24306in</Height>
+              <Width>3.63875in</Width>
+              <ZIndex>2</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+              </Style>
+            </Textbox>
+            <Line Name="line1">
+              <Top>0.25in</Top>
+              <Left>6.55904in</Left>
+              <Height>0in</Height>
+              <Width>-6.55904in</Width>
+              <ZIndex>3</ZIndex>
+              <Style>
+                <Border>
+                  <Style>Solid</Style>
+                </Border>
+              </Style>
+            </Line>
+            <Textbox Name="Textbox2">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>Help</Value>
+                      <Style>
+                        <FontSize>12pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                        <Color>DarkOliveGreen</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox2</rd:DefaultName>
+              <ActionInfo>
+                <Actions>
+                  <Action>
+                    <Hyperlink>http://localhost/reports</Hyperlink>
+                  </Action>
+                </Actions>
+              </ActionInfo>
+              <Top>0.03472in</Top>
+              <Left>6.05972in</Left>
+              <Height>0.20833in</Height>
+              <Width>0.51042in</Width>
+              <ZIndex>4</ZIndex>
+              <ToolTip>Click here for help on using this report.</ToolTip>
+              <Style>
+                <Border>
+                  <Style>Solid</Style>
+                </Border>
+                <BackgroundColor>LemonChiffon</BackgroundColor>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+              </Style>
+            </Textbox>
+          </ReportItems>
+          <Style />
+        </PageHeader>
+        <PageFooter>
+          <Height>0.47569in</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Textbox Name="textbox8">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>="Report Name: " &amp; Globals!ReportName</Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>textbox8</rd:DefaultName>
+              <Top>0.04167in</Top>
+              <Left>0.05903in</Left>
+              <Height>0.19792in</Height>
+              <Width>3.375in</Width>
+              <Style>
+                <Border>
+                  <Style>Solid</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="textbox4">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Globals!PageNumber</Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>textbox4</rd:DefaultName>
+              <Top>0.25in</Top>
+              <Left>6.15278in</Left>
+              <Height>0.1875in</Height>
+              <Width>0.375in</Width>
+              <ZIndex>1</ZIndex>
+              <Style>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="textbox23">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>= "Last run date: " &amp; Format(Globals!ExecutionTime, "g")</Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>0.25in</Top>
+              <Left>3.4757in</Left>
+              <Height>0.1875in</Height>
+              <Width>2.5625in</Width>
+              <ZIndex>2</ZIndex>
+              <Style>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="textbox18">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>="Report Folder: " &amp; Globals!ReportFolder</Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <Top>0.25in</Top>
+              <Left>0.05903in</Left>
+              <Height>0.1875in</Height>
+              <Width>3.375in</Width>
+              <ZIndex>3</ZIndex>
+              <Style>
+                <Border>
+                  <Style>Solid</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+          </ReportItems>
+          <Style />
+        </PageFooter>
+        <LeftMargin>1in</LeftMargin>
+        <RightMargin>1in</RightMargin>
+        <TopMargin>0.5in</TopMargin>
+        <BottomMargin>0.5in</BottomMargin>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParameters>
+    <ReportParameter Name="DateCalendarYear">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>[Date].[Calendar Year].&amp;[2008]</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Select Calendar Year: </Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>DateCalendarYear</DataSetName>
+          <ValueField>ParameterValue</ValueField>
+          <LabelField>ParameterCaptionIndented</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+  </ReportParameters>
+  <ReportParametersLayout>
+    <GridLayoutDefinition>
+      <NumberOfColumns>1</NumberOfColumns>
+      <NumberOfRows>1</NumberOfRows>
+      <CellDefinitions>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>DateCalendarYear</ParameterName>
+        </CellDefinition>
+      </CellDefinitions>
+    </GridLayoutDefinition>
+  </ReportParametersLayout>
+  <EmbeddedImages>
+    <EmbeddedImage Name="awdw_logo_image_2">
+      <MIMEType>image/jpeg</MIMEType>
+      <ImageData>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</ImageData>
+    </EmbeddedImage>
+  </EmbeddedImages>
+  <Language>en-US</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportServerUrl>http://localhost/ReportServer</rd:ReportServerUrl>
+  <rd:ReportID>d0fa4fdf-79d1-47f7-baad-2e8101d4a64c</rd:ReportID>
+</Report>

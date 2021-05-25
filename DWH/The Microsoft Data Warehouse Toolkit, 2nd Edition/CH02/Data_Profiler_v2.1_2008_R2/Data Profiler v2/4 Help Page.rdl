@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Body>
+    <ReportItems>
+      <Textbox Name="textbox9">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Report Description: The Help Page report provides user guidance for the Data Profiler report set.  Note: use these reports at your own risk.  There are no guarantees of any kind!  </Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>textbox9</rd:DefaultName>
+        <Top>3.5in</Top>
+        <Height>0.5in</Height>
+        <Width>6.5in</Width>
+        <Style>
+          <Border>
+            <Style>Solid</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="textbox27">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>The Data Profiler report set allows you to examine tables and columns in any SQL Server database which you have permission to read.
+
+1)  Select the target database from the pull-down menu at the top and select 
+     View Report on the top right.
+
+2)  Click on the table names or column names on the left side of each report page to drill down
+     to the details.
+
+3)  Use your browser's Back button to move back up to the starting report level.
+
+4)  Change the connection string in the data source (called TempDB in the 
+     Data Profiler v2 Report Manager folder) to point to a different server.  The 
+     default server is "localhost".
+
+5)  Visit http://www.msftdwtoolkit.com for updates and additional information.</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                  <Color>DarkOliveGreen</Color>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>textbox27</rd:DefaultName>
+        <Top>0.10417in</Top>
+        <Left>0.10417in</Left>
+        <Height>3.09375in</Height>
+        <Width>6.35417in</Width>
+        <ZIndex>1</ZIndex>
+        <Style>
+          <Border>
+            <Color>LemonChiffon</Color>
+            <Style>Solid</Style>
+            <Width>2pt</Width>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+    </ReportItems>
+    <Height>4in</Height>
+    <Style />
+  </Body>
+  <Width>6.58854in</Width>
+  <Page>
+    <PageHeader>
+      <Height>0.32291in</Height>
+      <PrintOnFirstPage>true</PrintOnFirstPage>
+      <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Line Name="line1">
+          <Top>0.3125in</Top>
+          <Left>6.5in</Left>
+          <Height>0in</Height>
+          <Width>-6.5in</Width>
+          <Style>
+            <Border>
+              <Style>Solid</Style>
+            </Border>
+          </Style>
+        </Line>
+        <Textbox Name="textbox17">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>Kimball Group - Example Data Profiler - Help Page</Value>
+                  <Style>
+                    <FontFamily>Comic Sans MS</FontFamily>
+                    <FontSize>11pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                    <Color>DarkOliveGreen</Color>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>textbox17</rd:DefaultName>
+          <Left>0.30729in</Left>
+          <Height>0.29167in</Height>
+          <Width>4.64583in</Width>
+          <ZIndex>1</ZIndex>
+          <Style>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Image Name="image1">
+          <Source>External</Source>
+          <Value>SmallKGLeaf2.jpg</Value>
+          <Height>0.30209in</Height>
+          <Width>0.3in</Width>
+          <ZIndex>2</ZIndex>
+          <Style />
+        </Image>
+      </ReportItems>
+      <Style />
+    </PageHeader>
+    <PageFooter>
+      <Height>0.51042in</Height>
+      <PrintOnFirstPage>true</PrintOnFirstPage>
+      <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Textbox Name="textbox8">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>="Report Name: " &amp; Globals!ReportName</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>textbox8</rd:DefaultName>
+          <Top>0.10417in</Top>
+          <Left>0.02083in</Left>
+          <Height>0.19792in</Height>
+          <Width>3.375in</Width>
+          <Style>
+            <Border>
+              <Style>Solid</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="textbox4">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Globals!PageNumber</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>textbox4</rd:DefaultName>
+          <Top>0.3125in</Top>
+          <Left>6.11458in</Left>
+          <Height>0.1875in</Height>
+          <Width>0.375in</Width>
+          <ZIndex>1</ZIndex>
+          <Style>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="textbox23">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>= "Last run date: " &amp; Format(Globals!ExecutionTime, "g")</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Right</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <Top>0.3125in</Top>
+          <Left>3.4375in</Left>
+          <Height>0.1875in</Height>
+          <Width>2.5625in</Width>
+          <ZIndex>2</ZIndex>
+          <Style>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="textbox18">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>="Report Folder: " &amp; Globals!ReportFolder</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <Top>0.3125in</Top>
+          <Left>0.02083in</Left>
+          <Height>0.1875in</Height>
+          <Width>3.375in</Width>
+          <ZIndex>3</ZIndex>
+          <Style>
+            <Border>
+              <Style>Solid</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="textbox16">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>(c) 2011 Kimball Group all rights reserved</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <ActionInfo>
+            <Actions>
+              <Action>
+                <Hyperlink>http://www.kimballuniversity.com/html/booksMDWT.html</Hyperlink>
+              </Action>
+            </Actions>
+          </ActionInfo>
+          <Top>0.08333in</Top>
+          <Left>4.35937in</Left>
+          <Height>0.19792in</Height>
+          <Width>2.22917in</Width>
+          <ZIndex>4</ZIndex>
+          <Style>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+      </ReportItems>
+      <Style />
+    </PageFooter>
+    <LeftMargin>1in</LeftMargin>
+    <RightMargin>1in</RightMargin>
+    <TopMargin>0.5in</TopMargin>
+    <BottomMargin>0.5in</BottomMargin>
+    <Style />
+  </Page>
+  <Description>The Help Page contains user guidance for the Data Profiler reports.  It is called from the Table List report.</Description>
+  <Author>Warren Thornthwaite</Author>
+  <AutoRefresh>0</AutoRefresh>
+  <EmbeddedImages>
+    <EmbeddedImage Name="awdw_logo_image_2">
+      <MIMEType>image/jpeg</MIMEType>
+      <ImageData>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</ImageData>
+    </EmbeddedImage>
+  </EmbeddedImages>
+  <Language>en-US</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>d0fa4fdf-79d1-47f7-baad-2e8101d4a64c</rd:ReportID>
+</Report>
