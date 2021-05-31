@@ -62,5 +62,9 @@
   <ItemGroup>
     <Build Include="Tables\tblStudents.sql" />
     <Build Include="storedProcedure\spGetStudentByID.sql" />
+    <Build Include="Tables\Login.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="StudentData.refactorlog" />
   </ItemGroup>
 </Project>

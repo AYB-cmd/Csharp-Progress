@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SimpleCalculator.MainPage">
+    <Grid Padding="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Label x:Name="Labelnum1" Text="Num1:" Grid.Row="0" Grid.Column="0" />
+        <Entry x:Name="num1" Placeholder="Enter num1:" Grid.Row="0" Grid.Column="1" />
+        <Label x:Name="Labelnum2" Text="num2:" Grid.Row="1" Grid.Column="0" />
+        <Entry x:Name="num2" Placeholder="Enter num:" Grid.Row="1" Grid.Column="1" />
+        <Label x:Name="Labelres" Text="Result is:" Grid.Row="2" Grid.Column="0" />
+        <Label x:Name="res" Grid.Row="2" Grid.Column="1" />
+        <Button x:Name="BtnAdd" Text="Addition" Grid.Row="3" Grid.Column="0" Clicked="BtnAdd_Clicked" />
+        <Button x:Name="BtnSub" Text="Substraction" Grid.Row="3" Grid.Column="1" Clicked="BtnSub_Clicked" />
+        <Button x:Name="BtnMul" Text="Multiplication" Grid.Row="4" Grid.Column="0" Clicked="BtnMul_Clicked" />
+        <Button x:Name="BtnDiv" Text="Division" Grid.Row="4" Grid.Column="1" Clicked="BtnDiv_Clicked" />
+        <Button x:Name="BtnRem" Text="Remainder" Grid.Row="5" Grid.Column="0" Clicked="BtnRem_Clicked" />
+        <Button x:Name="BtnClr" Text="Clear" Grid.Row="5" Grid.Column="1" Clicked="BtnClr_Clicked" />
+    </Grid>
+</ContentPage>

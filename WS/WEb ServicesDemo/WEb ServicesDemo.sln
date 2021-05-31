@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentServices", "StudentS
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "StudentData", "Data\StudentData.sqlproj", "{6B799AAE-356B-4495-8E76-F770FAD35C62}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Loggin", "Loggin\Loggin.csproj", "{B6CFA072-4939-4937-B5C4-F97F7C5EC084}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,10 @@ Global
 		{6B799AAE-356B-4495-8E76-F770FAD35C62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B799AAE-356B-4495-8E76-F770FAD35C62}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6B799AAE-356B-4495-8E76-F770FAD35C62}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{B6CFA072-4939-4937-B5C4-F97F7C5EC084}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6CFA072-4939-4937-B5C4-F97F7C5EC084}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6CFA072-4939-4937-B5C4-F97F7C5EC084}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6CFA072-4939-4937-B5C4-F97F7C5EC084}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
