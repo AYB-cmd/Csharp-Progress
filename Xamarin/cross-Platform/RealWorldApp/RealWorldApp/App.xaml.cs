@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RealWorldApp.Pages;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -10,7 +11,8 @@ namespace RealWorldApp
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new SignupPage();
+
         }
 
         protected override void OnStart()
