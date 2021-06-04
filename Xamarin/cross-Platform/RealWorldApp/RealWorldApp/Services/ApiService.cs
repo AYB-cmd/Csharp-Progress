@@ -19,10 +19,11 @@ namespace RealWorldApp.Services
                 Email = email,
                 Password = password 
             };
-            var httpClient = new HttpClient();
+            HttpClientHandler handler = new HttpClientHandler();
+            var httpClient = new HttpClient(handler);
             var json = JsonConvert.SerializeObject(register);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response =  await httpClient.PostAsync(AppSetting.ApiUrl+"api/accounts/Register",content);
+            var response =  await httpClient.PostAsync(AppSetting.ApiUrl + "api/accounts/Register",content);
             if (!response.IsSuccessStatusCode) return false;
             return true;
             
@@ -36,7 +37,8 @@ namespace RealWorldApp.Services
                 Email = email,
                 Password = password
             };
-            var httpClient = new HttpClient();
+            HttpClientHandler handler = new HttpClientHandler();
+            var httpClient = new HttpClient(handler);
             var json = JsonConvert.SerializeObject(register);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await httpClient.PostAsync(AppSetting.ApiUrl + "api/accounts/Login", content);

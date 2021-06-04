@@ -6,6 +6,6 @@ namespace RealWorldApp
 {
     public class AppSetting
     {
-        public static string ApiUrl = "https://localhost:44327/";
+        public static string ApiUrl = "https://192.168.161.1:45456/";
     }
 }

@@ -11,7 +11,7 @@ namespace RealWorldApp
         {
             InitializeComponent();
 
-            MainPage = new SignupPage();
+            MainPage = new NavigationPage(new SignupPage());
 
         }
 
