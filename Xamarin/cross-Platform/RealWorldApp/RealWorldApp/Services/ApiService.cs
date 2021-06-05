@@ -3,6 +3,7 @@ using RealWorldApp.Model;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
@@ -51,6 +52,53 @@ namespace RealWorldApp.Services
             return true;
 
         }
+
+        public static async Task<List<Category>> GetCategories()
+        {
+            HttpClientHandler handler = new HttpClientHandler();
+            var httpClient = new HttpClient(handler);
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", Preferences.Get("accessToken", string.Empty));
+            var response = await httpClient.GetStringAsync(AppSetting.ApiUrl + "api/categories");
+            return JsonConvert.DeserializeObject<List<Category>>(response);
+        }
+
+        public static async Task<Product> GetProductById(int productId)
+        {
+            HttpClientHandler handler = new HttpClientHandler();
+            var httpClient = new HttpClient(handler);
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", Preferences.Get("accessToken", string.Empty));
+            var response = await httpClient.GetStringAsync(AppSetting.ApiUrl + "api/products/" + productId);
+            return JsonConvert.DeserializeObject<Product>(response);
+        }
+
+        public static async Task<List<ProductByCategory>> GetProductByCategories(int CategoryId)
+        {
+            HttpClientHandler handler = new HttpClientHandler();
+            var httpClient = new HttpClient(handler);
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", Preferences.Get("accessToken", string.Empty));
+            var response = await httpClient.GetStringAsync(AppSetting.ApiUrl + "api/Products/ProductsByCategory/" + CategoryId);
+            return JsonConvert.DeserializeObject<List<ProductByCategory>>(response);
+        }
+
+        public static async Task<List<TrendingProduct>> GetTrendingProducts()
+        {
+            HttpClientHandler handler = new HttpClientHandler();
+            var httpClient = new HttpClient(handler);
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", Preferences.Get("accessToken", string.Empty));
+            var response = await httpClient.GetStringAsync(AppSetting.ApiUrl + "api/products/trendingproducts");
+            return JsonConvert.DeserializeObject<List<TrendingProduct>>(response);
+        }
+
+        public static async Task<TotalCartItem> GetTotalCartItems(int userId)
+        {
+            HttpClientHandler handler = new HttpClientHandler();
+            var httpClient = new HttpClient(handler);
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", Preferences.Get("accessToken", string.Empty));
+            var response = await httpClient.GetStringAsync(AppSetting.ApiUrl + "api/ShoppingCartItems/TotalItems/" + userId);
+            return JsonConvert.DeserializeObject<TotalCartItem>(response);
+        }
+
+
     }
 
 }

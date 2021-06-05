@@ -1,9 +1,12 @@
-﻿using System;
+﻿using RealWorldApp.Model;
+using RealWorldApp.Services;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,9 +15,35 @@ namespace RealWorldApp.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class HomePage : ContentPage
     {
+        public ObservableCollection<TrendingProduct> ProductsCollection;
+        public ObservableCollection<Category> CategoriesCollection;
         public HomePage()
         {
             InitializeComponent();
+            CategoriesCollection = new ObservableCollection<Category>();
+            ProductsCollection = new ObservableCollection<TrendingProduct>();
+            GetTrendingProducts();
+            GetCategories();
+            LblUserName.Text = Preferences.Get("UserName", string.Empty);
+
+        }
+        private async void GetCategories()
+        {
+            var categories = await ApiService.GetCategories();
+            foreach (var category in categories)
+            {
+                CategoriesCollection.Add(category);
+            }
+            CvCategories.ItemsSource = CategoriesCollection;
+        }
+        private async void GetTrendingProducts()
+        {
+          var products =   await ApiService.GetTrendingProducts();
+            foreach(var product in products)
+            {
+                ProductsCollection.Add(product);
+            }
+            CvProducts.ItemsSource = ProductsCollection;
         }
         private async void TapMenu(Object sender, EventArgs e)
         {
@@ -26,6 +55,19 @@ namespace RealWorldApp.Pages
             await SlMenu.TranslateTo(-250, 0, 400, Easing.Linear);
             GridOverlay.IsVisible = false;
             
+        }
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            var response = await ApiService.GetTotalCartItems(Preferences.Get("UserId", 0));
+            LblTotalItems.Text = response.TotalItem.ToString();
+        }
+        private void CvCategories_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var currentSelection = e.CurrentSelection.FirstOrDefault() as Category;
+            if (currentSelection == null) return;
+            Navigation.PushModalAsync(new ProductListPage(currentSelection.Id,currentSelection.Name));
+            ((CollectionView)sender).SelectedItem = null; 
         }
     }
 }
