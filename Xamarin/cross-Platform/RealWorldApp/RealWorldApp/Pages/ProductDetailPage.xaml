@@ -38,7 +38,8 @@
                    Grid.Row="1"
                    x:Name="ImgProduct"
                    Aspect="AspectFit"
-                   HeightRequest="200" />
+                   HeightRequest="200" 
+                   Source="https://source.unsplash.com/random"/>
             <BoxView BackgroundColor="#EAEAEA"
                      Grid.Row="2" />
             <Frame Grid.Row="2"

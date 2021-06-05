@@ -8,6 +8,7 @@ namespace RealWorldApp.Model
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string ImagUrl { get; set; }
+        public string ImageUrl { get; set; }
+        public string FullImageUrl => AppSetting.ApiUrl + ImageUrl;
     }
 }
