@@ -62,6 +62,14 @@ namespace RealWorldApp.Pages
                 CustomerId = Preferences.Get("UserId", 0)
             };
             var response = await ApiService.AddItemsInCart(addToCart);
+            if (response)
+            {
+                await DisplayAlert("", "Your items has been added to the cart", "Alright");
+            }
+            else
+            {
+                await DisplayAlert("Oops", "Somethig went wrong", "Cancel");
+            }
         }
     }
 }

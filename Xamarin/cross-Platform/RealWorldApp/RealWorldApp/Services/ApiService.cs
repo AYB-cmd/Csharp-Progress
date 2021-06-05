@@ -93,12 +93,28 @@ namespace RealWorldApp.Services
         {
             HttpClientHandler handler = new HttpClientHandler();
             var httpClient = new HttpClient(handler);
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", Preferences.Get("accessToken", string.Empty));
+           
             var response = await httpClient.GetStringAsync(AppSetting.ApiUrl + "api/ShoppingCartItems/TotalItems/" + userId);
             return JsonConvert.DeserializeObject<TotalCartItem>(response);
         }
 
 
-    }
+            public static async Task<bool> AddItemsInCart(AddToCart addToCart)
+            {
+             
+                HttpClientHandler handler = new HttpClientHandler();
+                var httpClient = new HttpClient(handler);
+                var json = JsonConvert.SerializeObject(addToCart);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", Preferences.Get("accessToken", string.Empty));
+                var response = await httpClient.PostAsync(AppSetting.ApiUrl + "api/ShppingCartItems", content);
+                if (!response.IsSuccessStatusCode) return false;
+                return true;
 
-}
+            }
+
+
+
+        }
+
+    }
