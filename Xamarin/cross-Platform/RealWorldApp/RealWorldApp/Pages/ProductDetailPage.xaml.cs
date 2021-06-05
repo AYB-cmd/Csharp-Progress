@@ -1,10 +1,12 @@
-﻿using RealWorldApp.Services;
+﻿using Android.Preferences;
+using RealWorldApp.Model;
+using RealWorldApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -13,10 +15,12 @@ namespace RealWorldApp.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ProductDetailPage : ContentPage
     {
+        private int _productId;
         public ProductDetailPage(int productId)
         {
             InitializeComponent();
             GetProductDetails(productId);
+            _productId = productId;
         }
         private void TapBack_Tapped(object sender, EventArgs e)
         {
@@ -31,6 +35,33 @@ namespace RealWorldApp.Pages
             ImgProduct.Source = product.FullImageUrl;
             LblPrice.Text = product.Price.ToString();
 
+        }
+        private void TapAdd_Tapped(object sender, EventArgs e)
+        {
+            var i = Convert.ToInt32(LblQty.Text);
+            i++;
+            LblQty.Text = i.ToString();
+        }
+        private void TapRemove_Tapped(object sender, EventArgs e)
+        {
+            var i = Convert.ToInt32(LblQty.Text);
+            i--;
+            if (i < 1)
+            {
+                return;
+            }
+            LblQty.Text = i.ToString();
+        }
+        private async void TapAddToCart_Tapped(object sender, EventArgs e)
+        {
+            var addToCart = new AddToCart()
+            {
+                Qty = Convert.ToInt32(LblQty.Text),
+                Price = Convert.ToInt32(LblPrice.Text),
+                ProductId = _productId,
+                CustomerId = Preferences.Get("UserId", 0)
+            };
+            var response = await ApiService.AddItemsInCart(addToCart);
         }
     }
 }

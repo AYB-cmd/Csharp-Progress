@@ -97,7 +97,7 @@
                                Aspect="AspectFit"
                                HeightRequest="40">
                             <Image.GestureRecognizers>
-                                <TapGestureRecognizer x:Name="TapRemove" />
+                                <TapGestureRecognizer x:Name="TapRemove" Tapped="TapBack_Tapped" />
                             </Image.GestureRecognizers>
                         </Image>
                         <Label Text="1"
@@ -111,7 +111,7 @@
                                Aspect="AspectFit"
                                HeightRequest="40" >
                             <Image.GestureRecognizers>
-                                <TapGestureRecognizer x:Name="TapAdd"  />
+                                <TapGestureRecognizer x:Name="TapAdd" Tapped="TapBack_Tapped" />
                             </Image.GestureRecognizers>
                         </Image>
                     </StackLayout>
@@ -139,7 +139,7 @@
                            Text="Add to Cart"
                            VerticalOptions="Center" />
                     <Grid.GestureRecognizers>
-                        <TapGestureRecognizer x:Name="TapAddToCart" />
+                        <TapGestureRecognizer x:Name="TapAddToCart" Tapped="TapAddToCart_Tapped" />
                     </Grid.GestureRecognizers>
                 </Grid>
             </Frame>
