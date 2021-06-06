@@ -193,7 +193,7 @@
                                    VerticalTextAlignment="Center"
                                    FontSize="20" />
                         <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer x:Name="TapOrders" />
+                            <TapGestureRecognizer x:Name="TapOrders" Tapped="TapOrders_Tapped" />
                         </StackLayout.GestureRecognizers>
                     </StackLayout>
                     <StackLayout Spacing="30"

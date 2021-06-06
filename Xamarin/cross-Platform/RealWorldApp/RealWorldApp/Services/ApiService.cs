@@ -160,6 +160,15 @@ namespace RealWorldApp.Services
 
         }
 
+        public static async Task<List<OrderByUser>> GetOrdersByUser(int UserId)
+        {
+            HttpClientHandler handler = new HttpClientHandler();
+            var httpClient = new HttpClient(handler);
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", Preferences.Get("accessToken", string.Empty));
+            var response = await httpClient.GetStringAsync(AppSetting.ApiUrl + "api/Orders/OrdersByUser/" + UserId);
+            return JsonConvert.DeserializeObject<List<OrderByUser>>(response);
+        }
+
 
 
     }
