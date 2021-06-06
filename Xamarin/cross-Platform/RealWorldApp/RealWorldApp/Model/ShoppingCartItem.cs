@@ -12,5 +12,7 @@ namespace RealWorldApp.Model
         public int Qty { get; set; }
         public string productName { get; set; }
         public string ImageUrl { get; set; }
+        public string FullImageUrl => AppSetting.ApiUrl + ImageUrl;
     }
 }
+

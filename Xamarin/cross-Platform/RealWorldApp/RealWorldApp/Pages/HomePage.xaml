@@ -69,10 +69,11 @@
                                HorizontalTextAlignment="Center"
                                HeightRequest="25"
                                WidthRequest="25"
-                               TextColor="White"/>
+                               TextColor="White"
+                               />
                     </Frame>
                     <Grid.GestureRecognizers>
-                        <TapGestureRecognizer x:Name="TapCartIcon"/>
+                        <TapGestureRecognizer x:Name="TapCartIcon" Tapped="TapCartIcon_Tapped"/>
                     </Grid.GestureRecognizers>
                 </Grid>
             </Grid>
@@ -150,7 +151,7 @@
                                                HeightRequest="120"
                                                Source="https://source.unsplash.com/random"/>
                                         <Label TextColor="#2C2C2C" Text="{Binding Name}" />
-                                        <Label TextColor="#FA6400" Text="{Binding Price, StringFormat='DH{0}'}" />
+                                        <Label TextColor="#FA6400" Text="{Binding Price, StringFormat='DH {0}'}" />
                                     </StackLayout>
                                 </Frame>
                             </StackLayout>

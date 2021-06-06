@@ -22,11 +22,12 @@ namespace RealWorldApp.Pages
             InitializeComponent();
             CategoriesCollection = new ObservableCollection<Category>();
             ProductsCollection = new ObservableCollection<TrendingProduct>();
-            GetTrendingProducts();
             GetCategories();
+            GetTrendingProducts();
             LblUserName.Text = Preferences.Get("UserName", string.Empty);
 
         }
+
         private async void GetCategories()
         {
             var categories = await ApiService.GetCategories();
@@ -60,7 +61,7 @@ namespace RealWorldApp.Pages
         {
             base.OnAppearing();
             var response = await ApiService.GetTotalCartItems(Preferences.Get("UserId", 0));
-            LblTotalItems.Text = response.TotalItem.ToString();
+            LblTotalItems.Text = response.TotalItems.ToString();
         }
         private void CvCategories_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -75,6 +76,11 @@ namespace RealWorldApp.Pages
             if (currentSelection == null) return;
             Navigation.PushModalAsync(new ProductDetailPage(currentSelection.Id));
             ((CollectionView)sender).SelectedItem = null;
+        }
+
+        private void TapCartIcon_Tapped(object sender, EventArgs e)
+        {
+            Navigation.PushModalAsync(new CartPage());
         }
     }
 }

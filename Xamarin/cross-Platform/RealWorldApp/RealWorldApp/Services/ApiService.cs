@@ -8,10 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 
+
 namespace RealWorldApp.Services
 {
     public static class ApiService
     {
+
         public static async Task<bool> RegisterUser(string name, string email, string password)
         {
             var register = new Register()
@@ -49,12 +51,17 @@ namespace RealWorldApp.Services
             Preferences.Set("accessToken", result.AccessToken);
             Preferences.Set("UserName", result.UserName);
             Preferences.Set("UserId", result.UserId);
+            Preferences.Set("toKenExpirationTime", result.ExpirationTime);
+            DateTime TimeStemp = DateTime.Now;
+            long unixTime = ((DateTimeOffset)TimeStemp).ToUnixTimeSeconds();
+            Preferences.Set("currentTime", unixTime);
             return true;
 
         }
 
         public static async Task<List<Category>> GetCategories()
         {
+
             HttpClientHandler handler = new HttpClientHandler();
             var httpClient = new HttpClient(handler);
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", Preferences.Get("accessToken", string.Empty));
@@ -93,28 +100,85 @@ namespace RealWorldApp.Services
         {
             HttpClientHandler handler = new HttpClientHandler();
             var httpClient = new HttpClient(handler);
-           
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", Preferences.Get("accessToken", string.Empty));
             var response = await httpClient.GetStringAsync(AppSetting.ApiUrl + "api/ShoppingCartItems/TotalItems/" + userId);
             return JsonConvert.DeserializeObject<TotalCartItem>(response);
         }
+        public static async Task<CartSubTotal> GetCardSubTotal(int userId)
+        {
+            HttpClientHandler handler = new HttpClientHandler();
+            var httpClient = new HttpClient(handler);
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", Preferences.Get("accessToken", string.Empty));
+            var response = await httpClient.GetStringAsync(AppSetting.ApiUrl + "api/ShoppingCartItems/SubTotal/" + userId);
+            return JsonConvert.DeserializeObject<CartSubTotal>(response);
+        }
 
 
-            public static async Task<bool> AddItemsInCart(AddToCart addToCart)
-            {
+        public static async Task<List<ShoppingCartItem>> GetShoppingCartItems(int userId)
+        {
+            HttpClientHandler handler = new HttpClientHandler();
+            var httpClient = new HttpClient(handler);
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", Preferences.Get("accessToken", string.Empty));
+            var response = await httpClient.GetStringAsync(AppSetting.ApiUrl + "api/ShoppingCartItems/" + userId);
+            return JsonConvert.DeserializeObject<List<ShoppingCartItem>>(response);
+        }
+
+
+        public static async Task<bool> AddItemsInCart(AddToCart addToCart)
+        {
              
                 HttpClientHandler handler = new HttpClientHandler();
                 var httpClient = new HttpClient(handler);
                 var json = JsonConvert.SerializeObject(addToCart);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                  httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", Preferences.Get("accessToken", string.Empty));
-                var response = await httpClient.PostAsync(AppSetting.ApiUrl + "api/ShppingCartItems", content);
+                var response = await httpClient.PostAsync(AppSetting.ApiUrl + "api/ShoppingCartItems", content);
                 if (!response.IsSuccessStatusCode) return false;
                 return true;
 
-            }
+        }
+        public static async Task<bool> ClearShoppingCart(int userId)
+        {
+            HttpClientHandler handler = new HttpClientHandler();
+            var httpClient = new HttpClient(handler);
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", Preferences.Get("accessToken", string.Empty));
+            var response = await httpClient.DeleteAsync(AppSetting.ApiUrl + "api/ShoppingCartItems/" + userId);
+            if (!response.IsSuccessStatusCode) return false;
+            return true;
+        }
+        public static async Task<OrderResponse> PlaceOrder(Order order)
+        {
 
-
+            HttpClientHandler handler = new HttpClientHandler();
+            var httpClient = new HttpClient(handler);
+            var json = JsonConvert.SerializeObject(order);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", Preferences.Get("accessToken", string.Empty));
+            var response = await httpClient.PostAsync(AppSetting.ApiUrl + "api/Orders", content);
+            var jsonResult = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<OrderResponse>(jsonResult);
 
         }
+
+
+
+    }
+    public static class TokenValidator
+    {
+        public  static async Task CheckTokenValidity()
+        {
+            var expirationTime = Preferences.Get("TokenExpirationTime", 0);
+            DateTime TimeStemp = DateTime.Now;
+            long unixTime = ((DateTimeOffset)TimeStemp).ToUnixTimeSeconds();
+            Preferences.Set("currentTime", unixTime);
+            var currentTime = Preferences.Get("currentTime", 0);
+            if(expirationTime < currentTime)
+            {
+                var email = Preferences.Get("email", string.Empty);
+                var password = Preferences.Get("password", string.Empty);
+               await ApiService.Login(email,password);
+            }
+        }
+    }
 
     }

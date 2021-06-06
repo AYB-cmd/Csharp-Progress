@@ -1,5 +1,4 @@
-﻿using Android.Preferences;
-using RealWorldApp.Model;
+﻿using RealWorldApp.Model;
 using RealWorldApp.Services;
 using System;
 using System.Collections.Generic;

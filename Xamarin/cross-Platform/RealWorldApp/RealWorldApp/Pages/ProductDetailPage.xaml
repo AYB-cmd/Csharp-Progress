@@ -97,7 +97,7 @@
                                Aspect="AspectFit"
                                HeightRequest="40">
                             <Image.GestureRecognizers>
-                                <TapGestureRecognizer x:Name="TapRemove" Tapped="TapBack_Tapped" />
+                                <TapGestureRecognizer x:Name="TapRemove" Tapped="TapRemove_Tapped" />
                             </Image.GestureRecognizers>
                         </Image>
                         <Label Text="1"
@@ -111,7 +111,7 @@
                                Aspect="AspectFit"
                                HeightRequest="40" >
                             <Image.GestureRecognizers>
-                                <TapGestureRecognizer x:Name="TapAdd" Tapped="TapBack_Tapped" />
+                                <TapGestureRecognizer x:Name="TapAdd" Tapped="TapAdd_Tapped" />
                             </Image.GestureRecognizers>
                         </Image>
                     </StackLayout>

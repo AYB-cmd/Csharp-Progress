@@ -6,6 +6,6 @@ namespace RealWorldApp.Model
 {
     public class TotalCartItem
     {
-        public int TotalItem { get; set; }
+        public int TotalItems { get; set; }
     }
 }
