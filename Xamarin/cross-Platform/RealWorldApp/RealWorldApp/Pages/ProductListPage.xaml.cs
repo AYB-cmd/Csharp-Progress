@@ -23,6 +23,7 @@ namespace RealWorldApp.Pages
 
             ProductByCategoryCollection = new ObservableCollection<ProductByCategory>();
             GetProducts(categoryId);
+            
         }
 
         private async void GetProducts(int categoryId)
@@ -31,7 +32,10 @@ namespace RealWorldApp.Pages
             foreach(var product in products)
             {
                 ProductByCategoryCollection.Add(product);
+               
+                
             }
+            
 
             CvProducts.ItemsSource = ProductByCategoryCollection;
         }

@@ -169,7 +169,28 @@ namespace RealWorldApp.Services
             return JsonConvert.DeserializeObject<List<OrderByUser>>(response);
         }
 
+        public static async Task<List<OrderDetail>> GetOrdersDetail(int orderId)
+        {
+            HttpClientHandler handler = new HttpClientHandler();
+            var httpClient = new HttpClient(handler);
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", Preferences.Get("accessToken", string.Empty));
+            var response = await httpClient.GetStringAsync(AppSetting.ApiUrl + "api/Orders/OrderDetails/" + orderId);
+            return JsonConvert.DeserializeObject<List<OrderDetail>>(response);
+        }
 
+        public static async Task<bool> RegisterComplaint(Complaint complaint)
+        {
+
+            HttpClientHandler handler = new HttpClientHandler();
+            var httpClient = new HttpClient(handler);
+            var json = JsonConvert.SerializeObject(complaint);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", Preferences.Get("accessToken", string.Empty));
+            var response = await httpClient.PostAsync(AppSetting.ApiUrl + "api/Complaints", content);
+            if (!response.IsSuccessStatusCode) return false;
+            return true;
+
+        }
 
     }
     public static class TokenValidator

@@ -208,7 +208,7 @@
                                    VerticalTextAlignment="Center"
                                    FontSize="20" />
                         <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer x:Name="TapCart" />
+                            <TapGestureRecognizer x:Name="TapCart" Tapped="TapCartIcon_Tapped" />
                         </StackLayout.GestureRecognizers>
                     </StackLayout>
                     <StackLayout Spacing="30"
@@ -223,7 +223,7 @@
                                    VerticalTextAlignment="Center"
                                    FontSize="20" />
                         <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer x:Name="TapContact" />
+                            <TapGestureRecognizer x:Name="TapContact" Tapped="TapContact_Tapped" />
                         </StackLayout.GestureRecognizers>
                     </StackLayout>
                     <StackLayout Spacing="30"
@@ -238,7 +238,7 @@
                                    VerticalTextAlignment="Center"
                                    FontSize="20" />
                         <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer x:Name="TapLogout" />
+                            <TapGestureRecognizer x:Name="TapLogout" Tapped="TapLogout_Tapped"/>
                         </StackLayout.GestureRecognizers>
                     </StackLayout>
                 </StackLayout>
