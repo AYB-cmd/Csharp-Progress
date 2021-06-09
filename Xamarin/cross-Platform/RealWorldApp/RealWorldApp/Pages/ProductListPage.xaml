@@ -50,11 +50,10 @@
                                      Orientation="Vertical">
                                     <Image Aspect="Fill"
                                    BackgroundColor="White"
-                                   HeightRequest="120" 
-                                           Source="https://192.168.161.1:45456/bb1.jpg" />
+                                   HeightRequest="120" Source="{Binding FullImageUrl}" />
                                     <Label TextColor="#2C2C2C" 
                                            Text="{Binding Name}"/>
-                                    <Label TextColor="#FA6400" Text="{Binding Price,StringFormat ='DH {0}'} "/>
+                                    <Label TextColor="#FA6400" Text="{Binding Price,StringFormat='DH {0}'} "/>
                                 </StackLayout>
                             </Frame>
                         </StackLayout>

@@ -1,0 +1,58 @@
+﻿@page "/Stock"
+@inherits StockBase
+
+
+<h3>Employee List</h3>
+
+<div class="card-deck">
+    @foreach (var employee in Products)
+    {
+        <div class="card m-3" style="min-width: 18rem; max-width:30.5%;">
+            <div class="card-header">
+                <h3>@employee.Name </h3>
+            </div>
+            <img class="card-img-top imageThumbnail" src="@employee.FullImageUrl" />
+            <div class="card-footer text-center">
+                <a href="#" class="btn btn-primary m-1">View</a>
+
+                <a href="#" class="btn btn-primary m-1">Edit</a>
+
+                <a href="#" class="btn btn-danger m-1">Delete</a>
+            </div>
+        </div>
+    }
+</div>
+
+@*@code {
+
+    }
+    <style>
+        .demo-mat-card {
+            max-width: 400px;
+        }
+
+        .demo-mat-card-content {
+            padding: 1rem;
+        }
+
+        .demo-mat-card-clean-margin {
+            margin: 0px;
+        }
+    </style>
+    <MatCard class="demo-mat-card">
+        <MatCardContent>
+            <MatCardMedia Wide="true" ImageUrl="https://material-components.github.io/material-components-web-catalog/static/media/photos/3x2/2.jpg"></MatCardMedia>
+            <div class="demo-mat-card-content">
+                <MatHeadline6 class="demo-mat-card-clean-margin">
+                    Our Changing Planet
+                </MatHeadline6>
+                <MatSubtitle2 class="demo-mat-card-clean-margin">
+                    by Kurt Wagner
+                </MatSubtitle2>
+            </div>
+
+            <MatBody2 class="demo-mat-card-content demo-mat-card-clean-margin">
+                Visit ten places on our planet that are undergoing the biggest changes today.
+            </MatBody2>
+        </MatCardContent>
+    </MatCard>*@

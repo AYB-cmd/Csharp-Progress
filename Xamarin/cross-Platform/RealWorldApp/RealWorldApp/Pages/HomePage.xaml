@@ -118,7 +118,7 @@
                                                         <Image Aspect="AspectFit"
                                                                HorizontalOptions="FillAndExpand"
                                                                VerticalOptions="FillAndExpand"
-                                                               Source="https://source.unsplash.com/random"/>
+                                                               Source="{Binding FullImageUrl}"/>
                                                     </Frame>
                                                     <Label TextColor="#2C2C2C"
                                                            HorizontalTextAlignment="Center"
@@ -149,7 +149,7 @@
                                                  Orientation="Vertical">
                                         <Image Aspect="Fill"
                                                HeightRequest="120"
-                                               Source="https://source.unsplash.com/random"/>
+                                               Source="{Binding FullImageUrl}"/>
                                         <Label TextColor="#2C2C2C" Text="{Binding Name}" />
                                         <Label TextColor="#FA6400" Text="{Binding Price, StringFormat='DH {0}'}" />
                                     </StackLayout>

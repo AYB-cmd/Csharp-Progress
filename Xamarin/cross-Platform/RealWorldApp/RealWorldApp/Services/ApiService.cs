@@ -48,12 +48,16 @@ namespace RealWorldApp.Services
             if (!response.IsSuccessStatusCode) return false;
             var jsonResult = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<Token>(jsonResult);
+
             Preferences.Set("accessToken", result.AccessToken);
+            Preferences.Get("accessToken",string.Empty);
             Preferences.Set("UserName", result.UserName);
             Preferences.Set("UserId", result.UserId);
             Preferences.Set("toKenExpirationTime", result.ExpirationTime);
+
             DateTime TimeStemp = DateTime.Now;
             long unixTime = ((DateTimeOffset)TimeStemp).ToUnixTimeSeconds();
+
             Preferences.Set("currentTime", unixTime);
             return true;
 
@@ -64,7 +68,7 @@ namespace RealWorldApp.Services
 
             HttpClientHandler handler = new HttpClientHandler();
             var httpClient = new HttpClient(handler);
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", Preferences.Get("accessToken", string.Empty));
+           httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", Preferences.Get("accessToken", string.Empty));
             var response = await httpClient.GetStringAsync(AppSetting.ApiUrl + "api/categories");
             return JsonConvert.DeserializeObject<List<Category>>(response);
         }

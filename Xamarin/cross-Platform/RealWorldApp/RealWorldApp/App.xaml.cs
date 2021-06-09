@@ -16,6 +16,7 @@ namespace RealWorldApp
             {
                 MainPage = new NavigationPage(new HomePage());
             }
+
             else
             {
                 MainPage = new NavigationPage(new SignupPage());
